@@ -104,7 +104,7 @@ DELETE	|/deleteWishListById/{idWishList}	| Delete an element of the wishlist	|x 
 
  [Spring cloud](http://projects.spring.io/spring-cloud/) provides powerful tools that enhance Spring Boot applications behaviour to implement patterns which could help us to make described core services work. The figure below shows how the E-shopper application was designed and implemented infrastructurally.
 
- ![Alt text](https://github.com/SEALABQualityGroup/microservices-application/blob/master/progetto-microservizi.png ")
+ <img alt="Infrastructure services" src="https://github.com/SEALABQualityGroup/microservices-application/blob/master/progetto-microservizi.png">
 
  ### Microservice-demo-config
 [Spring Cloud Config](http://cloud.spring.io/spring-cloud-config/spring-cloud-config.html) is horizontally scalable centralized configuration service for distributed systems. In this project, it used as 'native profile'. We can consider this as an external file container. The folder *shared* contains all the .yml files of the all microservices, they only have bootstrap.yml inside them and no other file .yml. The `bootstrap.yml` contains the name of the microservice and the url of the config. For example
