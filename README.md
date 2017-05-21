@@ -129,7 +129,8 @@ Client support enabled with `@EnableDiscoveryClient` annotation
  ### Microservice-demo-security
  This is the only module that is not a microservice, but it is a common library used by all microservices; it invokes the `microservice-demo accounts` in order to manage the authenticatcation. This is a common layer that provides a *Credential Provider* implemented as a Spring compononent, that can be injected and used as a custom class in the security configuration of a microservices
 
- ![Alt text](https://github.com/SEALABQualityGroup/microservices-application/blob/master/progetto-microservizi2.png ")
+  <img alt="Infrastructure services" src="https://github.com/SEALABQualityGroup/microservices-application/blob/master/progetto-microservizi2.png">
+
  
 The security used is `spring-boot-starter-security`.
 
