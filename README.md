@@ -166,7 +166,7 @@ Example for the micorservice-demo-account service:
 ```yml
 server:
  	context-path: /accounts
-    port: ${ACCOUNT_SERVICE_PORT}  # HTTP (Tomcat) port
+    	port: ${ACCOUNT_SERVICE_PORT}  # HTTP (Tomcat) port
 ```
 Once the configuration has been completer, it is possible to run the microservices in two ways:
 
