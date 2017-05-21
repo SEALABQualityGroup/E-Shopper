@@ -6,6 +6,7 @@ It was decomposed into eight core microservices. All of them are independently d
 
  #### Accounts service
 It contains general user input logic and validation. 
+
 Method	| Path	| Description	| User authenticated	| Public
 ------------- | ------------------------- | ------------- |:-------------:|:----------------:|
 POST	| /signup	| Crete a new account	|  | x	
@@ -17,6 +18,7 @@ POST	| /signin	| Login an account	|   | ×
 
 #### Login service
 It allows you to save login data
+
 Method	| Path	| Description	| User authenticated	| Public
 ------------- | ------------------------- | ------------- |:-------------:|:----------------:|
 POST	| /save	| update login info	|x  | x	
@@ -24,12 +26,14 @@ POST	| /save	| update login info	|x  | x
  #### Categories service
 It contains info about the category of the items you can buy
 It allows you to save login data
+
 Method	| Path	| Description	| User authenticated	| Public
 ------------- | ------------------------- | ------------- |:-------------:|:----------------:|
 GET	| /category	| Retrivies th list of the categories	|x  | x	
 
  #### Products service
 It contains info about the products of the items you can buy
+
 Method	| Path	| Description	| User authenticated	| Public
 ------------- | ------------------------- | ------------- |:-------------:|:----------------:|
 GET	| /findProduct	| Retrivies the list of the products	|x  | x	
@@ -38,6 +42,7 @@ GET	| /findProduct/{categoryId}	| Retrivies the list of the products in the spec
 
 #### Items service
 It contains details info of the items and it manages them. 
+
 Method	| Path	| Description	| User authenticated	| Public
 ------------- | ------------------------- | ------------- |:-------------:|:----------------:|
 GET	| /findItems/{idProduct}	| Retrivies the list of the items in the specified product	|x  | x	
@@ -49,8 +54,10 @@ GET	| /findItemRandom	| Retrivies 3 random items|x  | x
 GET	| /findItemRandomByIdProduct	| Retrivies 3 random items in the specified product|x  | x
 GET	| /findItem/{idItem}	| Retrivies the item |x  | x
 PUT	| /updateItem	| update an item |x  | 
+
  #### Cart service
  It manages the cart shop.
+ 
  Method	| Path	| Description	| User authenticated	| Public
 ------------- | ------------------------- | ------------- |:-------------:|:----------------:|
 GET	| /findCartByUsernameByIdItem/{username}/{idItem}	| Retrivies the specific element of the shopping cart associated with username and item.	|x  | 
@@ -62,8 +69,10 @@ PUT	| /updateCartItem	| Update element to shopping cart	|  x|
 PUT	| /updateListCartItem	| Update elements to shopping cart	|  x| 
 DELETE	| /deleteCartItemByIdCartItem/{idCartItem}	| Delete element to shopping cart	|  x| 
 DELETE	| /deleteCartItemByUsername/{idAccount}	| Delete elements to shopping cart	|  x| 
+
  #### Order service
  It contains details info of the orders and it manages them.
+ 
   Method	| Path	| Description	| User authenticated	| Public
 ------------- | ------------------------- | ------------- |:-------------:|:----------------:|
 POST	|/saveOrder	| Create a new order	|x  | 
@@ -75,7 +84,9 @@ GET	| /order/{idOrder}	| Return a single order	|  x|
 GET	| /listStatusOrder	| Return the list of the possible status of the order	|  x| 
 POST	| /findListOrder/{username}/{statusOrder}	| Return the list of the order with a specific status for the user	|  x| 
 DELETE	| /deleteCartItemByUsername/{idAccount}	| Delete elements to the shopping cart	|  x| 
+
  #### Wishlist service
+ 
  It contains details info of the wishlist and it manages them.
   Method	| Path	| Description	| User authenticated	| Public
 ------------- | ------------------------- | ------------- |:-------------:|:----------------:|
@@ -83,6 +94,7 @@ POST	|/saveWishList	| Add a new item to the wishlist	|x  |
 GET	|/findWishList/{username}	| Return the wishlist associated with the user	|x  |
 GET	|/findWishListByUsernameByIdItem/{username}/{idItem}	| Return an element of the wishlist	|x  | 
 DELETE	|/deleteWishListById/{idWishList}	| Delete an element of the wishlist	|x  | 
+
 #### Notes
 - Each microservice has it's own database, so there is no way to bypass API and access persistance data directly.
 - Service-to-service communication is quite simplified: microservices talking using  synchronous REST API.
