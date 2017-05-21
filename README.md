@@ -88,6 +88,7 @@ DELETE	| /deleteCartItemByUsername/{idAccount}	| Delete elements to the shopping
  #### Wishlist service
  
  It contains details info of the wishlist and it manages them.
+ 
   Method	| Path	| Description	| User authenticated	| Public
 ------------- | ------------------------- | ------------- |:-------------:|:----------------:|
 POST	|/saveWishList	| Add a new item to the wishlist	|x  | 
@@ -195,6 +196,3 @@ To start multiple instances of a microservice you can:
 The discovery server Eureka listening on  **http://localhost:1111** (user/password)
 The demo application listening on  **http://localhost:3333**
 
-
-"# microservices-application" 
-"# microservices-application" 
