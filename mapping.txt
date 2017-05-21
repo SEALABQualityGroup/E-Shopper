@@ -1,0 +1,13 @@
+accounts	--> 6667
+cart		--> 5559
+categories	--> 5555
+items		--> 5566
+login		--> 5557
+order		--> 5558
+products	--> 4444
+web			--> 3333
+wishlist    --> 5560
+
+config		--> 8888
+registration (eureka) --> 1111
+gateway		--> 4000

@@ -1,0 +1,53 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="header :: peo"></head>
+	<body>
+		<div th:if="${noWishList} == true" class="panel-empty">
+			<h6><b>0 ITEM ON WISHLIST</b></h6>
+			<h4>search for an item you'd like to add. </h4>
+			<a class="btn btn-default btnCenter" th:href="@{'/'}">HOME</a>
+		</div>
+		<div th:if="${noWishList} == false">	
+		<h2 class="title text-center">WISHLIST</h2>
+			<section id="cart_items">
+				<div class="container">
+					<div class="table-responsive cart_info">
+						<table class="table table-condensed">
+							<thead>
+								<tr class="cart_menu">
+									<td class="image">Item</td>
+									<td class="description">Code</td>
+									<td class="price">Price</td>
+									<td></td>
+									<td></td>
+								</tr>
+							</thead>
+							<tbody>			
+								<tr th:each="wishList : ${listWishList}">
+							        <td width="100" class="cart_product">
+							        	<a><img th:src="${wishList.item.image}" alt="" width="100px"/></a>
+							        </td>
+							        <td  width="200" class="cart_description">
+										<p th:text="${wishList.item.code}"></p>
+									</td>
+							        <td width="150" class="cart_price">
+										<p th:text="'$'+${wishList.item.unitCost}"></p>
+									</td>
+									<td  class="cart_price">
+										<a th:if="${wishList.item.totQuantity != 0 }" class="cart_quantity_delete" th:href="@{'/saveCartItemByWishlist/'+ ${wishList.idItem} }"><i class="fa fa-shopping-cart"></i></a>
+										<a th:if="${wishList.item.totQuantity == 0 }" >Not available</a>
+									</td> 
+									<td class="cart_description">
+										<a class="cart_quantity_delete" th:href="@{'/deleteWishListById/'+ ${wishList.idWishlist} }"><i class="fa fa-trash-o"></i></a>
+									</td> 
+	      						</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section> 
+		</div>	
+		<div th:replace="footer :: peo"></div>
+	</body>
+</html>

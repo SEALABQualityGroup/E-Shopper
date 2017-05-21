@@ -1,0 +1,17 @@
+# Spring properties
+spring:
+  application:
+     name: web-server  # Service registers under this name
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      password: password
+      username: user
+  freemarker:
+    enabled: false           # Ignore Eureka dashboard FreeMarker templates
+  thymeleaf:
+    cache: false       # Allow Thymeleaf templates to be reloaded at runtime
+    prefix: classpath:/web-server/templates/    # Trailing / mandatory 
+  session:
+    store-type: none   

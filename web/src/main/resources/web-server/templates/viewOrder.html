@@ -1,0 +1,171 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="header :: peo"></head>
+	<body>
+ 		<div class="panel-empty" th:if="${noListOrder} == true">
+    		<div th:if="${saveCancelled} == true" class="panel-successfully-update">
+				<h6>Your order has been succesfully deleted. </h6>
+				<p class="text-center">It is visible in the section<i><a class="account" th:href="@{'/viewOrder/'+ ${provenienza}+'/cancelled' }">Cancelled Order</a></i></p>
+			</div>
+			<div th:if="${saveArchived} == true" class="panel-successfully-update">
+				<h6>Your order has been succesfully archived. </h6>
+				<p class="text-center">It is visible in the section <i><a class="account" th:href="@{/viewOrder/a/archived}">Archived Order</a></i></p>
+			</div>
+			<h6 class="text-center"><b>0 ORDER ON LIST</b></h6>
+			<h4 th:if="${statusOrder} == 'all'"  class="text-center">You have not placed any orders</h4>
+			<h4 th:if="${statusOrder} == 'closed'"  class="text-center">We aren't finding any closed orders</h4>
+			<h4 th:if="${statusOrder} == 'cancelled'"  class="text-center">We aren't finding any cancelled orders</h4>
+			<h4 th:if="${statusOrder} == 'archived'"  class="text-center">We aren't finding any archived orders</h4>
+			<a class= "btn btn-default btnCenter" th:href="@{/shop}" title="add payment method" >SHOP</a>				
+		</div>
+	 <div th:if="${noListOrder} == false"  id="order-page" class="container">
+    	<div class="bg">
+    		<div class="row">  	
+	    		<div class="col-sm-12">
+	    			<div class=" col-sm-12 account-setting-form">
+	    				<h2 class="title text-center">YOUR order</h2>
+    					<div th:if="${saveCancelled} == true" class="panel-successfully-update">
+							<h6>Your order has been succesfully deleted. </h6>
+							<p class="text-center">It is visible in the section<i><a class="account" th:href="@{'/viewOrder/'+ ${provenienza} + '/cancelled'}">Cancelled Order</a></i></p>
+						</div>
+						<div th:if="${saveArchived} == true" class="panel-successfully-update">
+							<h6>Your order has been succesfully archived. </h6>
+							<p class="text-center">It is visible in the section <i><a class="account" th:href="@{'/viewOrder/a/archived'}">Archived Order</a></i></p>
+						</div>
+	    				
+	            		<div class="orderList col-md-12" th:each="order,index : ${listOrder}">
+		            		<div class="headerOrder col-md-12">
+		            			<div class=" col-md-2">
+		            				<div class="col-md-12">
+		            					<span><b>Order submitted: </b></span>
+		            				</div>
+		            				<div class="col-md-12">
+		            					<span th:text="${order.insertDate}"></span>
+		            				</div>
+		            			</div>
+		            			<div class=" col-md-2">
+		            				<div class="col-md-12">
+		            					<span><b>Tot: </b></span>
+		            				</div>
+		            				<div class="col-md-12">
+		            					<span th:text="'$'+${order.totPrice}"></span>
+		            				</div>
+		            			</div>
+		            			<div class=" col-md-4">
+		            				<div class="col-md-12">
+		            					<span><b>Send to: </b></span>
+		            				</div>
+		            				<div class="col-md-12">
+		            					<span th:text="${order.addressSmall}"></span>
+		            				</div>
+		            			</div>
+		            			<div class=" col-md-4">
+		            				<div class="col-md-12">
+		            					<span><b>Order #: </b></span>
+		            				</div>
+		            				<div class="col-md-12">
+		            					<span th:text="${order.code}"></span>
+		            				</div>
+		            			</div>
+		            		</div>
+		            		<div class="styleViewOrder col-md-12">
+	            				<div class="col-md-6">
+	            					<span><b>ORDER: </b></span>
+	            					<span th:text="${order.idStatus.description}"></span>
+	            				</div>
+		            		</div>
+		            		<div class="bodyOrder col-md-12"  th:each="relCartOrder : ${order.listRelCartOrder}">
+	            				<div class="col-md-3">
+	            					<a><img th:src="${relCartOrder.cart.item.image}" alt="" width="100px"/></a>
+	            				</div>
+	            				<div class="col-md-3">
+	            					<div class=" col-md-12"><span th:text="${relCartOrder.cart.item.code}"></span></div>
+	            					<div class=" col-md-12"><span th:text="'$'+${relCartOrder.cart.item.unitCost}"></span></div>
+	            					<div class=" col-md-12"><span><b>Quantity: </b></span><span th:text="${relCartOrder.cart.quantity}"></span></div>
+	            					<div th:if="${relCartOrder.cart.item.totQuantity} &gt; 1" class=" col-md-12"><a th:href="@{'/saveCartItemByOrder/'+ ${relCartOrder.cart.item.itemId}+'/'+${provenienza}+'/'+${statusOrder}}" title="Buy it again" >BUY IT AGAIN</a></div>
+	            				</div>
+
+		            		</div>	
+		            		<div class="styleViewOrder col-md-12">
+		            			<a th:if="${order.idStatus.idStatus} == 2 or ${order.idStatus.idStatus} == 3 or ${order.idStatus.idStatus} == 5" class= "buttonOrder" th:id="orderArchived_+${order.idOrder}+_+${statusOrder}" title="Archived order" >ARCHIVED ORDER</a>	
+		            			<a th:if="${order.idStatus.idStatus} == 1" th:id="orderCancell+${order.idOrder}" th:attr="data-tipo=${provenienza}" class= "buttonOrder"  title="Cancelled order" >CANCEL ORDER</a>			
+		            		</div>	
+		            	</div>	
+	    			</div>
+	    		</div>  			
+	    	</div>  
+    	</div>	
+    </div><!--/#contact-page-->
+	<div th:replace="footer :: peo"></div>
+	<script th:inline="javascript" type="text/javascript">
+		/* Fill in modal with content loaded with Ajax */
+		$(document).ready(function () {
+		    $('[id^="orderCancell"]').on('click', function (e) {
+		    	
+		    	console.log(e.currentTarget);
+		    	console.log(e.target);
+		        $("#myModal").modal();
+		        var id = e.currentTarget.id.replace('orderCancell','');
+		        if ($(this).data('tipo') == 'o'){
+		        	$('#btnCanceled').attr('href','/orderCancelled/o/'+id);
+		        }else{
+		        	$('#btnCanceled').attr('href','/orderCancelled/a/'+id);
+		        }
+		        $("#myModalBody").text("Are you sure you want to cancel the order? ");
+/* 		        $.ajax({
+		            url: " ",
+		            cache: false
+		        }).done(function (html) {
+		            $("#myModalBody").append(html);
+		        }); */
+		    })
+		});
+		
+		$(document).ready(function () {
+		    $('[id^="orderArchived"]').on('click', function (e) {
+		    	
+		    	console.log(e.currentTarget);
+		    	console.log(e.target);
+		        $("#myModalArchived").modal();
+		        var aa = e.currentTarget.id.split('_');
+		        var id = aa[1];
+		        var statusOrder = aa[2];
+		        $('#btnArhived').attr('href','/orderArchived/'+id+'/'+statusOrder);
+		        $("#myModalArchivedBody").text("Are you sure you want to archive the order? ");
+		    })
+		});
+</script>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Attention</h4>
+            </div>
+            <div class="bodyOrder modal-body" id="myModalBody"></div>
+            <div class="modal-footer">
+            	<a id="btnCanceled" type="button" class="buttonModal btn btn-default" th:href="@{/orderCancelled}">YES</a>
+                <button type="button" class="buttonModal btn btn-default" data-dismiss="modal">NO</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="myModalArchived" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Attention</h4>
+            </div>
+            <div class="bodyOrder modal-body" id="myModalArchivedBody"></div>
+            <div class="modal-footer">
+            	<a id="btnArhived" type="button" class="buttonModal btn btn-default" th:href="@{/orderArchived}">YES</a>
+                <button type="button" class="buttonModal btn btn-default" data-dismiss="modal">NO</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</body>
+</html>

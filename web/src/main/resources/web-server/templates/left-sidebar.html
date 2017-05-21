@@ -1,0 +1,43 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<body th:fragment="peo">
+	<div class="left-sidebar">
+		<h2>Category</h2>
+		<div class="panel-group" id="accordian">
+			 <ul  th:each="cat : ${categories}" class="gw-nav gw-nav-list" >
+			 
+		        <li th:if="${cat.listProduct.isEmpty()}" class="init-un-active" data-tipo="category"  th:attr="data-id=${cat.categoryId}" th:classappend="${idCategory} == ${cat.categoryId} ? active : ''"> <a th:href="@{'/findItemsByCategotyId/'+ ${cat.categoryId}}"> <span class="gw-menu-text" th:text="${cat.name}" ></span> </a> </li>
+		        
+		        <li th:if="${!cat.listProduct.isEmpty()}"  class="init-arrow-down" > <a href="javascript:void(0)"> <span class="gw-menu-text" th:text="${cat.name}" ></span> <b class="gw-arrow"></b> </a>
+		          <ul  th:each="product : ${cat.listProduct}" class="gw-submenu"  th:classappend="${idCategory} == ${cat.categoryId} ? classBlock : ''">
+		            <li data-tipo="product" th:attr="data-id=${product.productId}" th:class="${idProduct} == ${product.productId} ? active : ''"> <a th:href="@{'/findItemsByIdProduct/'+ ${product.productId}}" ><span th:text="${product.name}"></span></a> </li>
+		          </ul>
+		        </li>
+		      
+		      </ul>
+		</div>
+
+		<div class="price-range">
+			<!--price-range-->
+			<h2>Price Range</h2>
+			<div class="well">
+				<input type="text" class="span2" value="" data-slider-min="0"
+					data-slider-max="300" data-slider-step="5"
+					data-slider-value="[50,250]" id="sl2" /><br /> <b>$ 0</b> <b
+					class="pull-right">$ 300</b>
+			</div>
+		</div>
+		<!--/price-range-->
+
+		<div class="shipping text-center">
+			<!--shipping-->
+			<img th:src="@{/images/home/shipping.jpg}" alt="" />
+		</div>
+		<!--/shipping-->
+	</div>
+
+				
+</body>
+</html>

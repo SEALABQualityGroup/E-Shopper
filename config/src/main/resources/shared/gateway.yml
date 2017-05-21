@@ -1,0 +1,82 @@
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+
+ribbon:
+  ReadTimeout: 20000
+  ConnectTimeout: 20000
+  
+# Discovery Server Access
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://user:password@localhost:1111/eureka/
+      registerWithEureka: true
+      fetchRegistry: true
+
+zuul:
+  ignoredServices: '*'
+  host:
+    connect-timeout-millis: 20000
+    socket-timeout-millis: 20000
+
+  routes:
+
+    accounts-server:
+        path: /accounts/**
+        serviceId: accounts-server
+        stripPrefix: false
+        sensitiveHeaders:
+
+    login-server:
+        path: /login/**
+        serviceId: login-server
+        stripPrefix: false
+        sensitiveHeaders:
+
+    categories-server:
+        path: /categories/**
+        serviceId: categories-server
+        stripPrefix: false
+        sensitiveHeaders:
+        
+    product-server:
+        path: /products/**
+        serviceId: products-server
+        stripPrefix: false
+        sensitiveHeaders:
+        
+    item-server:
+        path: /items/**
+        serviceId: items-server
+        stripPrefix: false
+        sensitiveHeaders:
+      
+    cart-server:
+        path: /cart/**
+        serviceId: cart-server
+        stripPrefix: false
+        sensitiveHeaders:
+        
+    order-server:
+        path: /order/**
+        serviceId: order-server
+        stripPrefix: false
+        sensitiveHeaders:
+    
+    wishlist-server:
+        path: /wishlist/**
+        serviceId: wishlist-server
+        stripPrefix: false
+        sensitiveHeaders:
+
+server:
+  port: 4000
+
+logging:
+  level:
+    com.netflix.discovery.TimedSupervisorTask: "OFF"

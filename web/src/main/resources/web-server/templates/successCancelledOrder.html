@@ -1,0 +1,21 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="header :: peo"></head>
+	<body>
+	 	<div id="order-page" class="container">
+	    	<div class="bg">
+	    		<div class="row"> 		
+		    		<div class="col-md-5 col-md-offset-4">
+		    			<div class="forgot-password-form">
+		    				<h2 class="title text-center">ORDER DELETED</h2>
+							<h6>Thanks! Your order has been deleted.</h6>
+							<a class="btn btn-default btnCenter" th:href="@{'/'}">HOME</a>
+		    			</div>
+		    		</div>  			
+		    	</div>  
+	    	</div>	
+    	</div><!--/#contact-page-->
+		<div th:replace="footer :: peo"></div>
+	</body>
+</html>

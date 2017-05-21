@@ -1,0 +1,62 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="header :: peo"></head>
+	<body>	
+		<div th:if="${noPaymentList} == true"  class="panel-empty">		
+				<h6><b>0 PAYMENT METHOD ON LIST</b></h6>
+				<h4>Add a new payment method. </h4>
+				<a class="btn btn-default btnCenter btnMarginLeft" th:href="@{/addCreditCard}+'/payment'">New Credit Card</a>
+		</div>
+		<div th:if="${noPaymentList} == false">
+			<div id="login-setting-page" class="container">
+		    	<div class="bg">
+		    		<div class="row">    							    	  	  
+		    			<div class="col-md-6 col-md-offset-3">
+		    				<div class="manage-address-form">
+				    			<h2 class="title text-center">MANAGE PAYMENT</h2>
+				    			<div th:if="${editPayment} == true" class="panel-successfully">
+									<h6>Payment method successfully update</h6>
+								</div>
+								<div th:if="${deletePayment} == true" class="panel-successfully">
+									<h6>Payment method deleted</h6>
+								</div>	
+								<div th:if="${addPayment} == true" class="panel-successfully">
+									<h6>Payment method added</h6>
+								</div>	
+								<div th:if="${errorSave} == true" class="panel-error-data">								
+									<h6>Error saving data</h6>
+								</div>
+					            <div th:each="payment : ${account.listPayment}" th:if="${payment.flagActive} == 'Y'" class="form-group col-md-6 manage-payment">
+						            	
+					           		<div class="col-md-12">
+				            			<span><b>Number: </b></span><span th:text="${payment.numberCript}"></span>
+				            		</div> 
+				            		<div class="col-md-12">
+				            			<span th:text="${payment.name}"></span>
+				            		</div>   
+				            		<div class="col-md-12">
+				            			<span th:text="${payment.expirationMonth}+'/'+${payment.expirationYear}"></span><span th:if="${payment.creditCardExpire} == true" class="totallyUsed" th:text="' (EXPIRE)'"></span>
+				            		</div> 
+				            		<div class="col-md-12">				            						
+					            		<a type="submit"  th:href="@{/editCreditCardSetting/}+ ${{payment.idPayment}}+'/address'" ><span class="fa fa-edit"></span>Edit</a>
+						            	<a type="submit" th:href="@{/deleteCreditCardSetting/}+ ${{payment.idPayment}}+'/address'"  class="btnManageAddress"><span class="fa fa-trash-o"></span>Delete</a>					    
+				            		</div>
+				            	</div>
+					        </div>
+						</div>	
+						<div class="col-md-6 col-md-offset-3">
+							<form action="#" th:action="@{/addCreditCard}+'/payment'" enctype="application/json">	
+								<p id="slidebarfinal"></p>
+								<div class="col-md-8 col-md-offset-5">
+									<button type="submit" id="newButton" name="action" class="pull-right" value="newCreditCard">New Credit card</button>
+								</div> 
+							</form>    	
+						</div> 
+		    		</div>
+		    	</div>  			
+		    </div> 
+		</div> 
+		<div th:replace="footer :: peo"></div>
+	</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: peo"></head>
+
+<body>
+
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<!-- LEFT SIDEBAR -->
+					<div th:replace="left-sidebar :: peo"></div>
+				</div>
+
+				<div class="col-sm-9 padding-right">
+					<!-- FEATURES ITEMS -->
+					<div class="features_items">
+						<!--features_items-->
+						<h2 class="title text-center"> Items</h2>
+						<div th:each="item : ${items}" class="col-sm-4">
+							<div class="product-image-wrapper">
+								<div class="single-products">
+									<div class="productinfo text-center">
+									    <div class="ribbon-wrapper ribbon-top-left">
+                                    		<div th:if=" ${item.totQuantity} == 0" class="ribbon red">Not available</div>
+                                		</div>
+                                		<div class="ribbon-wrapper ribbon-top-left">
+                                    		<div th:if=" ${item.totQuantity} == 1" class="ribbon blue">Only ONE </div>
+                                		</div>
+										<img th:src="${item.image}" alt="" />
+										<h2>$<span th:text="${item.unitCost}"></span></h2>
+										<p><span th:text="${item.code}"></span></p>
+										
+										<a th:href="@{'/saveCartItemByProduct/'+ ${item.itemId} }"  th:if="${accountName} != '' and ${item.totQuantity} != 0 " class="btn btn-default add-to-cart"><i
+											class="fa fa-shopping-cart"></i>Add to cart</a>
+										<a th:href="@{'/returnLogin'}"   th:if="${accountName} == '' and ${item.totQuantity} != 0 " class="btn btn-default add-to-cart"><i
+											class="fa fa-shopping-cart"></i>Add to cart</a>
+										<a th:if=" ${item.totQuantity} == 0" class="btn btn-default aEmpty"></a>
+									</div>
+								</div>
+								<div class="choose"   th:if="${accountName != ''}">
+									<ul class="nav nav-pills nav-justified">
+										<li><a th:href="@{'/saveWishListByProduct/'+ ${item.itemId} }"><i class="fa fa-plus-square"></i>Add
+												to wishlist</a></li>
+												
+									</ul>
+								</div>
+								<div class="choose"   th:if="${accountName == ''}">
+									<ul class="nav nav-pills nav-justified">
+										<li><a th:href="@{'/returnLogin'}"><i class="fa fa-plus-square"></i>Add
+												to wishlist</a></li>
+												
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--features_items-->
+				</div>
+			</div>
+		</div>
+		<div th:if="${erroreSaveCart} == true" class="login-error">
+			<h6> Error: Failed to save your data </h6>
+		</div>
+	</section>
+	<input type="hidden" th:attr="value = ${priceMin}" id="priceMin"/>
+	<input type="hidden" th:attr="value = ${priceMax}" id="priceMax"/>
+	<div th:replace="footer :: peo"></div>
+	<script type="text/javascript">
+	function onSlideStop(e){
+		e.preventDefault();
+		var aa = $(this).val().split(',');
+		var min = aa[0];
+		var max = aa[1];
+		var id = $('#accordian .active').data('id');
+		console.log(min+' '+max+' '+id)
+		if ($('#accordian .active').data('tipo') == 'category'){
+			window.open('/findItemByCategoryFilter/'+ id+'/'+min+'/'+max,'_self');
+		}else{
+			window.open('/findItemByProductFilter/'+ id+'/'+min+'/'+max,'_self');
+		}
+	}
+	  $(document).ready(function() {
+		   $('#sl2').on('slideStop',onSlideStop)
+		   if ( $('#priceMin').val() != ''){
+			   console.log($('#priceMin').val());
+			   $('#sl2').slider('setValue', [$('#priceMin').val(), $('#priceMax').val()])
+		   }
+	  });
+</script>
+</body>
+</html>

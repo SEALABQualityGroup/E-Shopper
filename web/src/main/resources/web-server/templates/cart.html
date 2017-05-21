@@ -1,0 +1,117 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="header :: peo"></head>
+	<body>
+		<form action="#" th:action="@{/checkout}" th:object="${giftCard}" id="formCart" method="POST" enctype="application/json">
+			<div th:if="${noCart} == true" class="panel-empty">
+				<h6><b>YUOR SHOPPING CART IS EMPTY</b></h6>
+				<h4>The price and availability of items are subject to change. </h4>
+				<h4>Do you have a gift card? We'll ask you to enter your claim code when it's time to pay.</h4>
+				<a class="btn btn-default btnCenter" th:href="@{'/shop/'}">Shop now</a>
+			</div>
+			<div th:if="${orderError} == true" class="panel-empty">
+				<h6>Error create order. Reapet please</h6>
+			</div>		
+		<div th:if="${noCart} == false" >
+			<section id="cart_items">
+				<div class="container">
+					<div class="table-responsive cart_info">
+						<table class="table table-condensed">
+							<thead>
+								<tr class="cart_menu">
+									<td class="image">Item</td>
+									<td class="description">Code</td>
+									<td class="price">Price</td>
+									<td class="quantity">Quantity</td>
+									<td class="total">Total</td>
+									<td></td>
+								</tr>
+							</thead>
+							<tbody>		
+								<tr th:each="cartItem : ${listCartItem}">
+							        <td width="150" class="cart_product">
+							        	<a><img th:src="${cartItem.item.image}" alt="" width="100px"/></a>
+							        </td>
+							        <td  width="200" class="cart_description">
+										<p th:text="${cartItem.item.code}"></p>
+									</td>
+							        <td width="150" class="cart_price">
+										<p th:text="'$'+${cartItem.item.unitCost}"></p>
+									</td>
+									<td  class="cart_quantity">
+										<div class="cart_quantity_button" th:if="${cartItem.item.totQuantity} &gt; 1">
+											<a class="cart_quantity_up" th:href="@{'/updateCartItem/'+ 'add/'+ ${cartItem.idCart}}"> + </a>
+											<input class="cart_quantity_input" type="text" name="quantity" th:value="${cartItem.quantity}" autocomplete="off" size="1" />
+											<a class="cart_quantity_down" th:href="@{'/updateCartItem/'+ 'delete/' + ${cartItem.idCart}}"> - </a>
+										</div>
+										<div class="cart_quantity_button" th:if="${cartItem.item.totQuantity} &lt;= 1">
+											<input class="cart_quantity_input" type="text" style="margin-left:25px" disabled="disabled" name="quantity" th:value="${cartItem.quantity}" autocomplete="off" size="1" />
+										</div>
+									</td>
+							       	<td class="cart_total">
+										<p class="cart_total_price" th:text="'$'+${cartItem.price}"></p>
+									</td>
+									<td class="cart_delete">
+										<a class="cart_quantity_delete" th:href="@{'/deleteCartItem/'+ ${cartItem.idCart} }"><i class="fa fa-trash-o"></i></a>
+									</td> 
+			     				</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</section> <!--/#cart_items-->
+	
+				<section id="do_action">
+					<div class="container">
+						<div class="heading">
+							<h3>What would you like to do next?</h3>
+							<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+						</div>
+						<div class="row">
+							<div th:if="${noGiftCard} == false" id="divPrinc" class="chose_area col-sm-6">
+								<ul >
+									<li>
+										<input type="checkbox" onclick="cbCheckId()" id="cb" />
+										<label>Use Gift Voucher</label>
+	
+									</li>
+								</ul>		
+							</div>
+							<div th:if="${noGiftCard} == true" id="divPrinc" class="chose_area col-sm-6">
+								<ul >
+									<li>
+										<a class="giftIcon" th:href="@{'/addGiftCard/cart'}" title="add gift card" >+ Add Gift Card</a>
+									</li>
+								</ul>
+							</div>
+							<div class="col-sm-6">
+								<div  class="total_area">
+									<ul>
+										<li>Cart Sub Total <span th:text="'$'+${priceTotal}"></span></li>
+										<li>Eco Tax <span>$2.00</span></li>
+										<li>Shipping Cost <span>Free</span></li>
+										<li>Total <span th:text="'$'+${priceTotalWithEcoTax}"></span></li>
+									</ul>
+									<button type="submit" class="btn btn-default check_out" id="btnOrder">Check Out</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section><!--/#do_action-->
+				<script type="text/javascript">
+				    function cbCheckId(){
+				        cbObj = document.getElementById('cb');
+				        if (cbObj.checked){
+				        	$('#divPrinc').append('<div id="cbDiv"><ul><li th:each="giftCard : ${allGiftCard}"><input type="radio" th:name="idGift" th:value="${giftCard.idGift}" name="idGift" /><label th:text="'CODE: '+${giftCard.code}+'  ($'+${giftCard.balanceAvailabled}+')'" ></label></li></ul></div>');				
+				        }
+					    else{
+				            $('#cbDiv').remove();			    	
+					    }
+				    }
+				</script>
+			</div>
+		</form>
+		<div th:replace="footer :: peo"></div>
+	</body>
+</html>

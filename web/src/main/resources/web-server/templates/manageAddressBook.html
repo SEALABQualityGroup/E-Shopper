@@ -1,0 +1,73 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="header :: peo"></head>
+	<body>	
+		<div th:if="${noAddressList} == true"  class="panel-empty">
+			<h6><b>0 ADDRESS ON LIST</b></h6>
+			<h4>Add a new address. </h4>
+			<a class="btn btn-default btnCenter btnMarginLeft" th:href="@{/addAddressSetting}+'/address'">New Address</a>
+		</div>
+		<div th:if="${noAddressList} == false">
+			<div id="login-setting-page" class="container">
+	    		<div class="bg">
+	    			<div class="row ">						    	  	  	
+		   				<div class="col-md-6 col-md-offset-3">
+			   				<div class="manage-address-form">
+				    			<h2 class="title text-center">MANAGE ADDRESS</h2>
+				    			<div th:if="${editAddress} == true" class="panel-successfully">
+									<h6>Your address has been submitted </h6>
+								</div>
+								<div th:if="${deleteAddress} == true" class="panel-successfully">
+									<h6> You've successfully delete an address</h6>
+								</div>	
+								<div th:if="${addAddress} == true" class="panel-successfully">
+									<h6>you're address has been submitted</h6>
+								</div>
+								<div th:if="${errorSave} == true" class="panel-error-data">								
+									<h6>Error saving data</h6>
+								</div>	
+					            <div th:each="address,index : ${account.listAddress}" th:if="${address.flagActive} == 'Y'" class="form-group manage-address col-md-6">
+				            		<div class="col-md-12">
+				            			<b><span th:text="${address.fullName}"></span></b>
+				            		</div>   
+					           		<div class="col-md-12">
+				            			<span th:text="${address.address1}"></span>
+				            		</div> 
+				            		<div class="col-md-12">
+				            			<span th:text="${address.address2}"></span>
+				            		</div> 
+				        			<div class="col-md-12">			        				
+			            				<span th:text="${address.city}"></span>,
+			            				<span th:text="${address.province}"></span>
+			            				<span th:text="${address.zip}"></span>
+				            		</div>
+				            		<div class="col-md-12">
+				            			<span th:text="${address.state}"></span>
+				            		</div>  			
+				            		<div class="col-md-12">
+			            				<span>Phone: </span>
+			            				<span th:text="${address.phoneNumeber}"></span>
+				            		</div>
+				            		<div class="col-md-12 ">				            		
+				            			<a type="submit" th:href="@{/editAddressSetting/}+ ${{address.idAddress}} +'/address'" title="edit Address" ><span class="fa fa-edit"></span> Edit</a>
+				            			<a type="submit" class="btnManageAddress" th:href="@{/deleteAddressSetting/}+ ${{address.idAddress} +'/address'}" th:name="${address.idAddress}" title="delete Address"><span class="fa fa-trash-o"></span> Delete</a>
+				            		</div>
+				            	</div>
+					      	</div>
+				        </div>			
+			    	    <div class="col-md-6 col-md-offset-3">
+				    	 	<form action="#" th:action="@{/addAddressSetting}+'/address'" method="POST" enctype="application/json">	
+					         	<p id="slidebarfinal"></p>
+					         	<div class="col-md-8 col-md-offset-5">
+					            	<button type="submit" id="newButton" name="action" class="pull-right" value="newAddress">New Address</button>
+					            </div> 
+					        </form>    	
+					    </div> 
+		    		</div>
+		    	</div>  			
+		    </div> 
+		</div> 
+		<div th:replace="footer :: peo"></div>
+	</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="header :: peo"></head>
+	<body>
+		<!--form-->
+		<div id="login-page" class="container">
+			<div th:if="${noLogin} == true" class="login-error">
+				<h6> Please login below or register an account</h6>
+			</div>	
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-1">
+					<div class="login-form">
+						<!--login form-->
+						<h2>LOGIN</h2>
+						<div th:if="${noAccount} == true" class="panel-error-data">
+							<h6> Username or Password is incorrect</h6>
+						</div>
+						<div th:if="${returnLogin} == true" class="panel-error-data">
+							<h6> Continue with Login</h6>
+						</div>	
+						<div th:if="${updatePassword} == true" class="panel-successfully">
+							<h6>your password has been successful updated. <br></br>Please login again</h6>
+						</div>	
+							
+						<form action="#" th:action="@{/login}" th:object="${account}" id="formLogin"
+							method="POST" enctype="application/json">
+							<input type="text" placeholder="email"  required="required" th:maxlength="45" th:value="${account.email}" name="username" th:type="email" id="username"/> 
+							<span> 
+								<a id="forgotPassword" href="/forgotPasswordLogin">Forgot your password?</a>
+							</span>
+							<input type="password" placeholder="password"  required="required" th:value="${account.password}" name="password" id="password" th:type ="password" /> 
+							<span> 
+								<label for="ckKeep" style="font-weight: normal"><input	type="checkbox" class="checkbox" id="ckKeep"/> Keep me signed in</label>
+							</span>
+							<button type="submit" class="btn btn-default" id="btnLogin">Login</button>
+						</form>
+					</div>
+					<!--/login form-->
+				</div>
+				<div class="col-sm-1">
+					<h2 class="or">OR</h2>
+				</div>
+				<div class="col-sm-4">
+					<div class="signup-form">
+						<!--sign up form-->
+						<h2>CREATE ACCOUNT</h2>
+						<div th:if="${existenceEmail} == true" class="login-error">
+							<h6>EMAIL ADDRESS ALREADY IN USE</h6>
+						</div>	
+						<div th:if="errorSaveAccount == true" class="login-error">
+							<h6>ERROR SAVING DATA</h6>
+						</div>	
+						<form action="#" th:action="@{/signup}" th:object="${account}"
+							method="POST" enctype="application/json">
+							<input type="text" placeholder="Name" th:maxlength="45"  required="required" th:value="${account.name}" name="name" th:type="text" />
+							<input type="text" placeholder="Email Address" th:maxlength="45"	 required="required" th:value="${account.email}" name="email" th:type="email" />
+							<input type="password" placeholder="password (at last 6 characters)"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" id="password1" required="required" th:value="${account.password}" name="password" th:type ="password"/> 
+							<input type="password" placeholder="password again" th:name="pwdRepeat" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"  id="pwdRepeat" required="required" th:type ="password"/> 
+							<button type="submit" id="btnCreateAccount" onclick="validatePassword()" class="btn btn-default">CREATE YOUR ACCOUNT</button>
+						</form>
+						<script type="text/javascript">
+							
+							var password = document.getElementById("password1")
+							  , pwdRepeat = document.getElementById("pwdRepeat");
+
+							function validatePassword(){
+							  if(password.value != pwdRepeat.value) {
+							    pwdRepeat.setCustomValidity("Passwords Don't Match");
+							  } else {
+							    pwdRepeat.setCustomValidity('');
+							  }
+							}
+							
+							
+							
+						</script>
+					</div>
+					<!--/sign up form-->
+				</div>
+			</div>
+		</div>
+	<!--/form-->
+	<div th:replace="footer :: peo"></div>
+	<script type="text/javascript">
+	function onChangeCbKeep(){
+		if ($('#ckKeep').is(':checked')){
+			Cookies.set("username", $('#username').val())
+		}else{
+			Cookies.remove("username")
+		}
+	}
+	
+	$(document).ready(function(){
+		if (Cookies.get("username")){
+			$('#ckKeep').prop('checked',true);
+			$('#ckKeep').attr('checked','checked');
+			 $('#username').val(Cookies.get("username"))
+		}
+		$('#ckKeep').change(onChangeCbKeep);
+		$('#btnLogin').click(onChangeCbKeep);
+	})
+	
+	</script>
+</body>
+</html>

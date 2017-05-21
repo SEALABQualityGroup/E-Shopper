@@ -1,0 +1,38 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: peo"></head>
+<body>
+	 <div id="login-setting-page" class="container">
+    	<div class="bg">
+    		<div class="row">  	  
+	    			<div class="col-md-5 col-md-offset-4">
+	    				<div class="change-account-setting-form">
+			    			<h2 class="title text-center">CHANGE ACCOUNT SETTINGS</h2>
+		    				<form action="#" th:action="@{/changeAccountSetting}" th:object="${account}" method="POST" enctype="application/json">					    	
+					            <div class="form-group col-md-12">
+				            		<div class="col-md-12">
+				            		    <h4 class="title text-left">Name: </h4>
+					            		<span th:text="${account.name}"></span>
+					            		<button type="submit" name="action" class="pull-right" value="nameChange">Edit</button>
+				            		</div>
+<!-- 				            		<div class="col-md-12">
+					            		<h4 class="title text-left">Email:  </h4>
+					            		<span th:text="${account.email}"></span>
+					        			<button type="submit" name="action" class="pull-right" value="emailChange">Edit</button>
+									</div> -->
+				            		<div class="col-md-12">
+					            		<h4 class="title text-left">Password</h4>
+					            		<span >**********</span>
+					            		<button type="submit" name="action" class="pull-right" value="pswChange">Edit</button>
+				            		</div>
+					            </div>
+					         </form>
+				         </div>			         
+	    			</div>
+	    		</div>  			
+	    	</div>  
+    	</div><!--/#contact-page-->
+	<div th:replace="footer :: peo"></div>
+</body>
+</html>

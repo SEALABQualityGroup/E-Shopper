@@ -1,0 +1,73 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: peo"></head>
+<body>
+	 <div id="order-page" class="container">
+    	<div class="bg">
+    		<div class="row">  	
+	    		<div class="col-sm-12">
+	    			<div class="account-setting-form">
+	    				<h2 class="title text-center">YOUR ACCOUNT</h2>
+				    	
+				            <div class="form-group col-md-12">
+			            		<div class="col-md-4">
+			            		    <h3 class="title text-left">Orders</h3>
+				            		<h5 class="title text-left">View or Modify Recent Orders</h5>
+			            		</div>
+			            		<div class="col-md-4">
+				            		<h4 class="title text-left">View track or cancel an order</h4>
+  									<a class="account" href="/viewOrder">Your Orders</a><br/>
+			            		</div>
+			            		<div class="col-md-4">
+				            		<h4 class="title text-left">History Orders</h4>
+                                    <a class="account" href="/closedOrder">Closed Order</a><br/>
+									<a class="account" href="/cancelledOrder">Cancelled Order</a><br/>
+									<a class="account" href="/archivedOrder">Archived Order</a>
+			            		</div>
+				            </div>
+				            <div class="form-group col-md-12" >
+				            	
+				            		<div class="col-md-4">
+				            			<h3 class="title text-left">Settings</h3>
+					            		<h5 class="title text-left">Password, address and email</h5>
+				            		</div>
+				            		<div class="col-md-4">
+					            		<h4 class="title text-left">Account setting</h4>
+	                                    <a class="account" href="/loginSetting">Login and security setting</a><br/>
+										<a class="account" href="/forgotPassword">Forgot your password?</a><br/>
+										<a class="account" href="/disableAccount">Disable Account</a>
+				            		</div>
+				            		<div class="col-md-4">
+					            		<h4 class="title text-left">Address Book</h4>
+	                                    <a class="account" href="/manageAddressBook">Manage Address Book</a><br/>
+										<a class="account" href="/addAddressBook">Add Address Book</a>
+				            		</div>
+				            	<br/>
+				            </div>
+				            <div class="form-group col-md-12">
+				            	<br/>
+				            		<div class="col-md-4">
+				            			<h3 class="title text-left">Payment method</h3>
+					            		<h5 class="title text-left">Credit Cards and Gift Cards</h5>
+				            		</div>
+				            		<div class="col-md-4">
+					            		<h4 class="title text-left">Credit card</h4>
+	                                    <a class="account" href="/managePaymentOption">Manage Payment Options</a><br/>
+										<a class="account" href="/addCreditCard">Add Credit or Debit card</a><br/>
+				            		</div>
+				            		<div class="col-md-4">
+					            		<h4 class="title text-left">Gift Cards</h4>
+	                                    <a class="account" href="/viewGiftCard">View Gift cards</a><br/>
+										<a class="account" href="/addGiftCard">Add Gift card</a>
+				            		</div>
+				            	<br/>
+				            </div>
+	    			</div>
+	    		</div>  			
+	    	</div>  
+    	</div>	
+    </div><!--/#contact-page-->
+	<div th:replace="footer :: peo"></div>
+</body>
+</html>

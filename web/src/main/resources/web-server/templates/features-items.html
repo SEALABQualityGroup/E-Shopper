@@ -1,0 +1,48 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<body th:fragment="peo">
+	<div class="features_items">
+		<!--features_items-->
+		<h2 class="title text-center">Features Items</h2>
+
+		<!-- ITEMS -->
+		<div th:each="featuresItem : ${featuresItems}">
+			<div class="col-sm-4">
+				<div class="product-image-wrapper">
+					<div class="single-products">
+						<div class="productinfo text-center">
+							<div class="ribbon-wrapper ribbon-top-left">
+                               <div th:if=" ${featuresItem.totQuantity} == 0" class="ribbon red">Not available</div>
+                            </div>
+                            <div class="ribbon-wrapper ribbon-top-left">
+                            	<div th:if=" ${featuresItem.totQuantity} == 1" class="ribbon blue">Only ONE </div>
+                            </div>
+							<img th:src="${featuresItem.image}" alt="" />
+							<h2>$<span th:text="${featuresItem.unitCost}"></span></h2>
+							<p th:text="${featuresItem.code}"></p>
+							<a th:href="@{'/saveCartItemByIndex/'+ ${featuresItem.itemId} }"  th:if="${accountName} != '' and ${featuresItem.totQuantity} != 0 " class="btn btn-default add-to-cart"><i
+								class="fa fa-shopping-cart"></i>Add to cart</a>
+							<a th:href="@{'/returnLogin'}"  th:if="${accountName == ''} and ${featuresItem.totQuantity} != 0" class="btn btn-default add-to-cart"><i
+								class="fa fa-shopping-cart"></i>Add to cart</a>
+							<a th:if=" ${featuresItem.totQuantity} == 0" class="btn btn-default aEmpty"></a>
+						</div>
+					</div>
+					<div class="choose"  th:if="${accountName != ''}">
+						<ul class="nav nav-pills nav-justified">
+							<li><a  th:href="@{'/saveWishList/'+ ${featuresItem.itemId} }"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+						</ul>
+					</div>
+					<div class="choose"  th:if="${accountName == ''}" >
+						<ul class="nav nav-pills nav-justified">
+							<li><a  th:href="@{'/returnLogin' }"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ITEMS -->
+	</div>
+	<!--features_items-->
+</body>
+</html>

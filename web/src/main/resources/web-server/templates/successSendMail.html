@@ -1,0 +1,27 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="header :: peo"></head>
+	<body>
+	 	<div id="order-page" class="container">
+	    	<div class="bg">
+	    		<div class="row"> 
+	    				
+		    		<div class="col-md-5 col-md-offset-4">
+		    			<div class="forgot-password-form">
+		    				<h2 class="title text-center"> OPERATION COMPLETE</h2>
+		    				<br/>
+							<span> 
+								We just sent an email to your inbox.
+							</span>
+							<span> 
+								<a id="btnSuccessMail" class="btn btn-default" th:href="@{'/closeMail/'}">Close</a>
+							</span>
+		    			</div>
+		    		</div>  			
+		    	</div>  
+	    	</div>	
+    	</div><!--/#contact-page-->
+		<div th:replace="footer :: peo"></div>
+	</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="header :: peo"></head>
+	<body>
+		<div th:if="${yourBalanceTot} == 0"  class="panel-empty">		
+			<h6><b>0 GIFT CARD METHOD ON LIST</b></h6>
+			<h4>Add a new gift card. </h4>
+			<a class="btn btn-default btnCenter btnMarginLeft" th:href="@{addGiftCard/gift}">New Gift Card</a>
+		</div>
+		<div th:if="${yourBalanceTot} > 0" id="login-setting-page" class="container">
+		  	<div class="bg">
+		  		<div class="row">				    	  	  
+		   			<div class="col-md-6 col-md-offset-3">
+		   				<div class="manage-address-form">
+			    			<h2 class="title text-center">MANAGE GIFT CARD</h2>
+				            <div th:each="giftCard,index : ${account.listGiftCard}" class="form-group col-md-6">
+				          		<div class="col-md-12">
+				          			<div class="col-md-7">
+			                        	<h4  th:text="'GIFT CARD '+${index.count}+':'" class="title text-left"></h4>
+				          			</div>
+			                  		<div th:if="${giftCard.balanceAvailabled} == 0" class="col-md-5">
+				                        <p class="totallyUsed" th:text="'(TOTALLY USED)'"></p>
+				                    </div>
+			            		</div> 
+				            	<div class="col-md-12">
+				            		<div class="col-md-12">
+					            		<div class="col-md-12">
+				                        	<span th:text="'Code: '+${giftCard.code}"></span>
+				                        </div>
+					                    <div class="col-md-12">
+					                        <span  th:text="'Balance Tot: $'+${giftCard.balanceTot}"></span>
+					                    </div>
+				            		</div>
+			            		</div>
+			            	</div>
+			            	<div class="col-md-12">				            		
+			            		<h4  id="totBalance" th:text="'YOUR Gift Card Balance: $'+${yourBalanceTot}"></h4>
+			            	</div>   
+			            </div>
+	         		</div>	
+					<div class="col-md-6 col-md-offset-3">
+						<form action="#" th:action="@{/addGiftCard/gift}" enctype="application/json">	
+					    	<p id="slidebarfinal"></p>
+					    	<div class="col-md-8 col-md-offset-5">
+					       		<button type="submit" id="newButton" name="action" class="pull-right" value="newCreditCard">New Gift card</button>
+					       </div> 
+					   </form>    	
+					</div> 
+				</div>
+			</div>  			
+		</div>  
+		<div th:replace="footer :: peo"></div>
+	</body>
+</html>

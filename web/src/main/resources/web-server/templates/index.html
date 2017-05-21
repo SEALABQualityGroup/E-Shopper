@@ -1,0 +1,138 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+	<head th:replace="header :: peo"></head> 
+	<body>
+	
+	<div th:replace="slider :: peo"></div>
+
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<!-- LEFT SIDEBAR -->
+ 					<div class="left-sidebar">
+						<h2>Category</h2>
+						<div class="panel-group" id="accordian">
+						 <ul  th:each="cat : ${categories}" class="gw-nav gw-nav-list" >					 
+					        <li th:if="${cat.listProduct.isEmpty()}" class="init-un-active"  th:classappend="${idCategory} == ${cat.categoryId} ? active : ''"> <a th:href="@{'/findItemsByCategotyId/'+ ${cat.categoryId}}"> <span class="gw-menu-text" th:text="${cat.name}" ></span> </a> </li>
+				        
+					        <li th:if="${!cat.listProduct.isEmpty()}"  class="init-arrow-down" > <a href="javascript:void(0)"> <span class="gw-menu-text" th:text="${cat.name}" ></span> <b class="gw-arrow"></b> </a>
+					          <ul  th:each="product : ${cat.listProduct}" class="gw-submenu"  th:classappend="${idCategory} == ${cat.categoryId} ? classBlock : ''">
+					            <li  th:class="${idProduct} == ${product.productId} ? active : ''"> <a th:href="@{'/findItemsByIdProduct/'+ ${product.productId}}" ><span th:text="${product.name}"></span></a> </li>
+					          </ul>
+					        </li>					      
+					      </ul>
+						</div> 
+					</div>
+				</div>
+				
+				<div class="col-sm-9 padding-right">
+				<div th:replace="features-items :: peo"></div>	 
+									
+				<div class="category-tab">
+						<div class="col-sm-12">						
+							<ul class="nav nav-tabs" >
+								<li th:each="product, index : ${products}" th:classappend=" ${product.productId} == ${idProduct} ? active : ''"> 
+									<a class="tab-products" th:href="'#item'+${product.productId}"><span th:text="${product.name}"></span></a>
+								</li>
+							</ul>
+						</div>
+						<div class="tab-content">
+							<div class="tab-pane fade in" th:each="product : ${products}" th:classappend=" ${product.productId} == ${idProduct} ? active : ''" th:id="'item'+${product.productId}" >
+									<div th:each="item : ${product.listItem}"  class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<div class="ribbon-wrapper ribbon-top-left">
+			                                    		<div th:if=" ${item.totQuantity} == 0" class="ribbon red">Not available</div>
+			                                		</div>
+			                                		<div class="ribbon-wrapper ribbon-top-left">
+			                                    		<div th:if=" ${item.totQuantity} == 1"  class="ribbon blue">Only ONE </div>
+			                                		</div>
+													<img th:src="${item.image}" alt="" />
+													<h2>$<span th:text="${item.unitCost}"></span></h2>
+													<p><span th:text="${item.code}"></span></p>
+										
+													<a th:href="@{'/saveCartItemByIndex/'+ ${item.itemId} }"  th:if="${accountName} != '' and ${item.totQuantity} != 0" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												    <a th:href="@{'/returnLogin'}"  th:if="${accountName} == '' and ${item.totQuantity} != 0" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+													<a th:if=" ${item.totQuantity} == 0" class="btn btn-default aEmpty"></a>
+												</div>				
+											</div>
+											<div id="wishlist" class="choose"  th:if="${accountName != ''}">
+												<ul class="nav nav-pills nav-justified">
+													<li><a th:href="@{'/saveWishList/'+ ${item.itemId} }"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+												</ul>
+											</div>
+											<div id="wishlist" class="choose"  th:if="${accountName == ''}">
+												<ul class="nav nav-pills nav-justified">
+													<li><a th:href="@{'/returnLogin'}"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="recommended_items">
+						<h2 class="title text-center">recommended items</h2>
+						<div id="recommended-item-carousel" class="carousel slide" >
+							<div class="carousel-inner">
+								<div th:each="item : ${itemsRecommended}" class="col-sm-4">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<div class="ribbon-wrapper ribbon-top-left">
+		                                    		<div th:if=" ${item.totQuantity} == 0" class="ribbon red">Not available</div>
+		                                		</div>
+		                                		<div class="ribbon-wrapper ribbon-top-left">
+		                                    		<div th:if=" ${item.totQuantity} == 1" class="ribbon blue">Only ONE </div>
+		                                		</div>
+												<img th:src="${item.image}" alt="" />
+												<h2>$<span th:text="${item.unitCost}"></span></h2>
+												<p><span th:text="${item.code}"></span></p>
+									
+												<a th:href="@{'/saveCartItemByIndex/'+ ${item.itemId} }"  th:if="${accountName} != '' and ${item.totQuantity} != 0" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												<a th:href="@{'/returnLogin'}"  th:if="${accountName} == '' and ${item.totQuantity} != 0" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												<a th:if=" ${item.totQuantity} == 0" class="btn btn-default aEmpty"></a>								
+											</div>				
+										</div>
+										<div class="choose"  th:if="${accountName != ''} ">
+											<ul class="nav nav-pills nav-justified">
+												<li><a  th:href="@{'/saveWishList/'+ ${item.itemId} }"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+											</ul>
+										</div>
+										<div class="choose"  th:if="${accountName == ''}" >
+											<ul class="nav nav-pills nav-justified">
+												<li><a  th:href="@{'/returnLogin'}"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>			
+					</div>				
+				</div>
+			</div>		
+		</div>
+		<div th:if="${erroreSaveCart} == true" class="login-error">
+			<h6> Error: Failed to save your data </h6>
+		</div>	
+	</section>
+	<div th:replace="footer :: peo"></div>
+	<script type="text/javascript" >
+			function onClickTabProducts(e){
+				e.preventDefault();
+				var id = $(this).attr('href').replace('#','');
+				$('.category-tab .active').removeClass('active');
+				$('#'+id).addClass('active');
+				$(this).parent().addClass('active');
+			}
+		  $(document).ready(function() {
+			   $('.tab-products').click(onClickTabProducts);
+		  });
+</script>
+</body>
+</html>

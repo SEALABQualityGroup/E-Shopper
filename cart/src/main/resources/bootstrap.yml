@@ -1,0 +1,20 @@
+# Spring properties
+spring:
+  application:
+     name: cart-server  # Service registers under this name   
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      password: password
+      username: user
+  freemarker:
+    enabled: false           # Ignore Eureka dashboard FreeMarker templates
+  session:
+    store-type: none
+    
+  datasource:
+    max-active: 5000
+    max-idle: 5000
+    max-wait: 5000
+    min-idle: 5000

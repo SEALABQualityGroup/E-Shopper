@@ -1,0 +1,48 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: peo"></head>
+<body>
+	 <div id="login-setting-page" class="container">
+    	<div class="bg">
+    		<div class="row">  	  
+	    			<div class="col-md-5 col-md-offset-4">
+	    				<div class="data-setting-form">
+			    			<h2 class="title text-center">NAME SETTINGS</h2>
+			    			<div th:if="${erroreSaveEmail} == true" class="login-error">								
+								<h6>Error saving data</h6>
+							</div>	
+		    				<form action="#" th:action="@{/changeAccountSetting}" th:object="${accountNew}" method="POST" enctype="application/json">					    	
+					            <div class="form-group col-md-12">
+				            		<div class="col-md-12">
+				            			<div class="col-md-12">
+				            				<div class="col-md-5">
+				            		   	 		<h4 class="title text-left">Old Name: </h4>
+				            		   		</div>
+				            		   		<div class="col-md-7">	
+					            				<div id="nameOld" th:text="${account.name}"></div>
+					            			</div>
+					            		</div>
+					            		<div class="col-md-12">
+					            			<div class="col-md-5">
+					            				<h4 class="title text-left">New Name: </h4>
+					            			</div>
+					            			<div class="col-md-7">
+					            				<input type="text" th:maxlength="45" placeholder="Name" th:name="newName" th:type ="text"/> 
+					            			</div>
+					            		</div>
+					            		<div class="divBackButtonSetting">
+		            						<a type="submit" th:href="@{'/'}+${urlBack}" class="btn btn-default backButtonCustomSetting" id="btnBackNameChange"> Back</a>
+				            				<button type="submit" name="action" class="pull-right" value="saveNameChange" id="btnSaveChange">Save</button>
+					            		</div>
+				            		</div>
+					            </div>
+					         </form>
+				         </div>			         
+	    			</div>
+	    		</div>  			
+	    	</div>  
+    	</div><!--/#contact-page-->
+	<div th:replace="footer :: peo"></div>
+</body>
+</html>

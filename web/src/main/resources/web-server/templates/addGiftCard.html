@@ -1,0 +1,47 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: peo"></head>
+<body>
+	 <div id="login-setting-page" class="container">
+    	<div class="bg">
+    		<div class="row">  	  
+	    			<div class="col-md-5 col-md-offset-4">
+	    				<div class="add-credit-card-form">
+			    			<h2 class="title text-center">ADD A GIFT CARD</h2>
+			    			<div th:if="${errorSave} == true" class="panel-error-data">								
+								<h6>Error saving data</h6>
+							</div>
+							<div th:if="${codeError} == true" class="panel-error-data">								
+								<h6>gift card already inserted</h6>
+							</div>		
+		    				<form action="#" th:action="@{/saveNewGiftCard}+'/'+${provenienza}" th:object="${giftCard}" method="POST" enctype="application/json">					    	
+			            		<div class="col-md-12">
+			            			<div class="col-md-5">
+			            		   		<h4 class="title text-left">Enter claim code</h4>
+			            		   	</div>
+			            		   	<div class="col-md-7">
+				            			<input type="text" th:value="${giftCard.code}" th:maxlength="45"  required="required" name="code" th:type="text" />
+				            		</div>
+				            	</div>
+				            	<div class="col-md-12">
+					            	<div class="col-md-5">
+				            			<h4 class="title text-left">Import ($)</h4>
+				            		</div>
+				            		<div class="col-md-7">
+					            		<input type="text" th:value="${giftCard.balanceTot}" placeholder="0.00" pattern="^[0-9]+([.][0-9]{1,2})?$"  required="required" name="balanceTot" th:type="text" />
+					            	</div>
+				            	</div>
+				            	<div class="divBackButton">
+	            					<a type="submit" th:href="@{'/'}+${urlBack}" class="btn btn-default backButtonCustom" id="btnBackGiftCard"> Back</a>
+									<button type="submit" name="action" class="pull-right">Save</button>					
+								</div>
+							</form>
+				      	</div>			         
+	    			</div>
+	    		</div>  			
+	    	</div>  
+    	</div><!--/#contact-page-->
+		<div th:replace="footer :: peo"></div>
+	</body>
+</html>

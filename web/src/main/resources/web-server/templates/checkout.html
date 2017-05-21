@@ -1,0 +1,163 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"	xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="header :: peo"></head>
+		<body>
+			<div th:if="${orderError} == true" class="login-error">								
+				<h6>Error when creating the order</h6>					
+			</div>
+			<form action="#" th:action="@{/saveOrder/}+ ${idGiftCard}" th:object="${order}" id="formOrder" method="POST" enctype="application/json">
+		
+			 	<section id="cart_items"> 
+					<div class="container">
+						<div th:if="${noPlaceOrder} == true">
+							<h3 class="text-center ">Please fill all needed information</h3>			
+						</div>
+						<div class="col-sm-12 step-one">
+							<h2 class="heading">Step1: address</h2>
+						</div>
+						<div class="panel-error-data col-sm-12 " th:if="${noAddress} == true">
+							<h6 class="text-center"><b>0 ADDRESS ON LIST</b></h6>
+							<p class="text-center">Add a new address.</p>
+							<a class= "addCheckout" th:href="@{'/addAddressBook/'+${provenienza}}" title="add payment method" >ADD ADDRESS</a>				
+						</div>
+						<div class="col-sm-12" th:if="${noAddress} == false">
+							<ul class="row">
+							  <li th:each="address, index: ${account.listAddress}" th:if="${address.flagActive} == 'Y'" class="ship-address col-md-4">	
+							  	<div class="col-sm-12" th:if="${address.flagActive} == 'Y'">		    
+								   	 <div class="col-md-12">
+								   	 	<input type="radio" th:name="idAddress"  th:value="${address.idAddress}" required="required" />
+								   	 	<label  th:text="${address.fullName}" >  </label>        			
+				            		</div>   
+					           		<div class="col-md-12 ">
+				            			<span th:text="${address.address1}"></span>
+				            		</div> 
+				            		<div class="col-md-12 ">
+				            			<span th:text="${address.address2}"></span>
+				            		</div> 
+				        			<div class="col-md-12 ">			        				
+			            				<span th:text="${address.city}"></span>,
+			            				<span th:text="${address.province}"></span>
+			            				<span th:text="${address.zip}"></span>
+				            		</div>
+				            		<div class="col-md-12">
+				            			<span th:text="${address.state}"></span>
+				            		</div>  			
+				            		<div class="col-md-12">
+			            				<span>Phone: </span>
+			            				<span th:text="${address.phoneNumeber}"></span>
+				            		</div>
+				            		<div class="col-md-12">
+				            			<a class="fa fa-edit cartIcon" th:href="@{'/editAddressSetting/'+ ${address.idAddress}+'/'+${provenienza}}" title="edit address"></a>
+										<a class="fa fa-trash-o cartIcon" th:href="@{'/deleteAddressSetting/'+ ${address.idAddress}+'/'+${provenienza}}" title="delete address" ></a>
+										<a class="fa fa-plus cartIcon" th:href="@{'/addAddressBook/'+${provenienza}}" title="add address" ></a>
+				            		</div>
+			            		</div>
+							  </li>
+							</ul>
+						</div>
+						<div class="col-sm-12 step-one">
+							<h2 class="heading">Step2: payment</h2>
+						</div>
+						<div class="col-sm-12 panel-error-data" th:if="${noPayment} == true">
+							<h6 class="text-center"><b>0 CREDIT CARD ON LIST</b></h6>
+							<p class="text-center">Add a new method payment.</p>
+							<a class= "addCheckout" th:href="@{'/addCreditCard/'+${provenienza}}" title="add payment method" >ADD CREDIT CARD</a>				
+						</div>
+						<div class="col-sm-12" th:if="${noPayment} == false">
+							<ul>
+							  <li th:each="payment : ${account.listPayment}" th:if="${payment.flagActive} == 'Y' and ${payment.creditCardExpire} == false" class="ship-payment col-md-4">	
+							  	<div th:if="${payment.flagActive} == 'Y'">			    
+								   	 <div class="col-md-12">
+								   	 	<input type="radio" th:name="idPayment" th:value="${payment.idPayment}"  required="required" />
+								   	 	<label  th:text="${payment.name}" >  </label>        			
+				            		</div>   
+					           		<div class="col-md-12 ">
+				            			<span th:text="${payment.number}"></span>
+				            		</div> 
+				            		<div class="col-md-12 ">
+				            			<span th:text="${payment.expirationMonth}+'/'+${payment.expirationYear}"></span>
+				            		</div> 
+		
+				            		<div class="col-md-12">
+				            			<a class="fa fa-edit cartIcon" th:href="@{'/editCreditCardSetting/'+ ${payment.idPayment}+'/'+${provenienza}}" title="edit payment method"></a>
+										<a class="fa fa-trash-o cartIcon" th:href="@{'/deleteCreditCardSetting/'+ ${payment.idPayment}+'/'+${provenienza}}" title="delete payment method" ></a>
+										<a class="fa fa-plus cartIcon" th:href="@{'/addCreditCard/'+${provenienza}}" title="add payment method" ></a>
+				            		</div>
+			            		</div>
+							  </li>
+							</ul>
+						</div>
+						<div class=" col-sm-12 step-one">
+							<h2 class="heading">Step3: Shipping Order</h2>
+						</div>
+						<div class="col-sm-12">
+							<div class="order-message">
+								<textarea name="message" th:value="${order.note}" th:name="note" placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>	
+							</div>	
+						</div>	
+						
+						<div class="col-sm-12 step-one">
+							<h2 class="heading">Step4: Review item</h2>
+						</div>
+		
+						<div class="col-sm-12 table-responsive orderC_info">
+							<table class="table table-condensed tableCheckout">
+								<thead>
+									<tr class="cart_menu">
+										<td class="image">Item</td>
+										<td class="description">Code</td>
+										<td class="price">Price</td>
+										<td class="quantity">Quantity</td>
+										<td class="total">Total</td>
+										<td class="total"></td>
+									</tr>
+								</thead>
+								<tbody>						
+									<tr th:each="cartItem : ${listCartItem}">
+								        <td width="150" class="cart_product">
+								        	<a><img th:src="${cartItem.item.image}" alt="" width="100px"/></a>
+								        </td>
+								        <td  width="200" class="cart_description">
+											<p th:text="${cartItem.item.code}"></p>
+										</td>
+								        <td width="150" class="cart_price">
+											<p th:text="'$'+${cartItem.item.unitCost}"></p>
+										</td>
+										<td  class="cart_quantity">
+											<p th:text="${cartItem.quantity}"></p>
+										</td>
+								       	<td class="cart_total">
+											<p class="cart_total_price" th:text="'$'+${cartItem.price}"></p>
+										</td>
+				
+				     					</tr>
+									</tbody>
+								</table>
+							</div>	
+							<div>
+								<div class="col-sm-12 step-one">
+									<h2 class="heading">Step4: Review payment</h2>
+								</div>
+								<div  class="col-md-5 col-md-offset-7 reapet_area">
+									<ul>
+										<li>Cart Sub Total <span th:text="'$'+${priceTotal}"></span></li>
+										<li>Eco Tax <span>$2.00</span></li>
+										<li>Shipping Cost <span>Free</span></li>
+										<li>Total <span th:text="${priceTotalWithEcoTax}"></span></li>							
+										<li th:if="${noGiftCard} == false">Gift Card <span th:text="'- $'+${priceGiftCard}"></span></li>
+										<li th:if="${noGiftCard} == false"><b>Total</b> <span th:text="'$'+${priceFinalTotal}"></span></li>
+									
+									</ul>
+								</div>
+							</div>						
+								<a type="submit" th:href="@{'/backCheckup'}" class="btn btn-default backOrder" id="btnOrder">Back</a>
+								<button type="submit" th:disabled ="${noPlaceOrder}" class="btn btn-default buy" id="btnOrder">Place your order</button>											
+						</div>
+				 </section>
+			</form>
+		<div th:replace="footer :: peo"></div>
+	</body>
+</html>
+	
+
+	

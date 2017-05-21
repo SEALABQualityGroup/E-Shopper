@@ -1,0 +1,37 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: peo"></head>
+<body>
+	 <div id="login-setting-page" class="container">
+    	<div class="bg">
+    		<div class="row">  	  
+	    			<div class="col-md-6 col-md-offset-3">
+	    				<div class="data-setting-form">
+			    			<h2 class="title text-center">DISABLE ACCOUNT</h2>
+		    				<form action="#" th:action="@{/saveDisableAccount}"  method="POST" enctype="application/json">					    	
+					            <div class="form-group col-md-12">
+				            		<div class="col-md-9 col-md-offset-2">
+				            			<div class="col-md-12">
+				            		   	 		<h4 class="title text-left"> Do you want to disable the account?</h4>
+					            		</div>
+
+										<div>
+											<div class="col-md-4 col-md-offset-2">
+												<button type="submit" name="action" value="noDisable" class="btn btn-default">NO</button>					
+											</div>
+											<div class="col-md-6">
+												<button type="submit" name="action" value="disable" class="btn btn-default">YES</button>
+											</div>
+										</div>
+				            		</div>
+					            </div>
+					         </form>
+				         </div>			         
+	    			</div>
+	    		</div>  			
+	    	</div>  
+    	</div><!--/#contact-page-->
+	<div th:replace="footer :: peo"></div>
+</body>
+</html>

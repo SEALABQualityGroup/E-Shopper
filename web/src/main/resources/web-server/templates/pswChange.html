@@ -1,0 +1,63 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: peo"></head>
+<body>
+	 <div id="login-setting-page" class="container">
+    	<div class="bg">
+    		<div class="row">  	  
+	    			<div class="col-md-6 col-md-offset-3">
+	    				<div class="data-setting-form">
+			    			<h2 class="title text-center">PASSWORD SETTINGS</h2>
+			    			<div th:if="${erroreSavePsw} == true" class="login-error">								
+								<h6>Error saving data</h6>
+							</div>
+							<div th:if="${errorePswMatch} == true" class="login-error">								
+								<h6>Passwords must match</h6>					
+							</div>	
+							<div th:if="${errorePsw} == true" class="login-error">								
+								<h6>Your password was incorrect. Please try again.</h6>					
+							</div>	
+							
+		    				<form action="#" th:action="@{/changeAccountSetting}" th:object="${account}" method="POST" enctype="application/json">					    	
+					            <div class="form-group col-md-12">
+				            		<div class="col-md-12">
+					            		<div class="col-md-12">
+					            			<div class="col-md-5">
+					            				<h4 class="title text-left">Password: </h4>
+					            			</div>
+					            			<div class="col-md-7">
+					            				<input type="password" placeholder="old password" th:name="oldPsw" name="password" th:type ="password"/> 
+					            			</div>
+					            		</div>
+					            		<div class="col-md-12">
+					            			<div class="col-md-5">
+					            				<h4 class="title text-left">New Password: </h4>
+					            			</div>
+					            			<div class="col-md-7">
+					            				<input type="password" placeholder=" new password (at last 6 characters)" th:name="psw" name="newPassword" th:type ="password"/> 
+					            			</div>
+					            		</div>
+					            		<div class="col-md-12">
+					            			<div class="col-md-5">
+					            				<h4 class="title text-left">Repeat Password: </h4>
+					            			</div>
+					            			<div class="col-md-7">
+												<input type="password" placeholder="password again" th:name="pwdRepeat" th:type ="password"/> 
+					            			</div>
+					            		</div>
+					            		<div class="divBackButtonSetting">
+		            						<a type="submit" th:href="@{'/'}+${urlBack}" class="btn btn-default backButtonCustomSetting" id="btnBackPswChange"> Back</a>
+					            			<button type="submit" name="action" class="pull-right" value="savePswChange" id="btnSaveChange">Save</button>
+					            		</div>
+				            		</div>
+					            </div>
+					         </form>
+				         </div>			         
+	    			</div>
+	    		</div>  			
+	    	</div>  
+    	</div><!--/#contact-page-->
+	<div th:replace="footer :: peo"></div>
+</body>
+</html>

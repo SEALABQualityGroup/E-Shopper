@@ -1,0 +1,41 @@
+# Spring properties
+spring:
+  application:
+    name: web-service  # Identify this application
+  freemarker:
+    enabled: false     # Ignore Eureka dashboard FreeMarker templates
+  thymeleaf:
+    cache: false       # Allow Thymeleaf templates to be reloaded at runtime
+    prefix: classpath:/web-server/templates/    # Trailing / mandatory 
+  session:
+    store-type: none
+
+# Map the error path to error template (for Thymeleaf)
+error:
+  path=/error
+
+# Discovery Server Access
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://user:password@localhost:1111/eureka/
+
+  instance:
+    preferIpAddress: true
+    ip-address: localhost
+
+# HTTP Server
+server:
+  port: 3333   # HTTP (Tomcat) port 
+       
+  #address: 127.0.0.1
+  tomcat:
+    max-threads: 500
+
+logging:
+  level:
+    org.springframework: WARN
+    org.springframework.cloud.netflix.eureka: DEBUG
+    org.springframework.security: DEBUG
+    org.thymeleaf: DEBUG
+    com.netflix.discovery.TimedSupervisorTask: "OFF"

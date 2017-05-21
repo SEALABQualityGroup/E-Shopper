@@ -1,0 +1,15 @@
+# Spring properties
+spring:
+  application:
+     name: wishlist-server  # Service registers under this name
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      password: password
+      username: user
+  freemarker:
+    enabled: false           # Ignore Eureka dashboard FreeMarker templates
+  session:
+    store-type: none
+   

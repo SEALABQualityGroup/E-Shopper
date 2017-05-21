@@ -1,0 +1,77 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: peo"></head>
+<body>
+	 <div id="login-setting-page" class="container">
+    	<div class="bg">
+    		<div class="row">  	  
+	    			<div class="col-md-5 col-md-offset-4">
+	    				<div class="add-credit-card-form">
+			    			<h2 class="title text-center">ADD A CREDIT CARD</h2>
+			    			<div th:if="${errorSave} == true" class="panel-error-data">								
+								<h6>Error saving data</h6>
+							</div>	
+							<div th:if="${errorDate} == true" class="panel-error-data">								
+								<h6>The date is expired</h6>
+							</div>
+							<div th:if="${creditCardError} == true" class="panel-error-data">								
+								<h6>credit card already inserted</h6>
+							</div>	
+							<div th:if="${addAddress} == true" class="panel-successfully">
+								<h6>your address has been submitted, please add a payment method! </h6>
+							</div>
+		    				<form action="#" th:action="@{/saveNewPayment}+'/'+${provenienza}" th:object="${payment}" method="POST" enctype="application/json">					    	
+
+	            			<div class="col-md-12">
+	            			  <div class="col-md-5">
+	            		   	 	<h4 class="title text-left">Name on card</h4>
+	            		   	  </div>
+	            		   	  <div class="col-md-7">
+		            			<input type="text" th:value="${payment.name}" th:maxlength="45" required="required" name="name" th:type="text" />
+		            		  </div>
+		            		</div>
+		            		<div class="col-md-12">
+		            			<div class="col-md-5">
+	            		   	 		<h4 class="title text-left">Card number</h4>
+	            		   	 	</div>
+	            		   	 	<div class="col-md-7">
+		            				<input type="text" th:value="${payment.number}" pattern="^\b(?:3[47]\d|(?:4\d|5[1-5]|65)\d{2}|6011)\d{12}\b$" th:type="text" name="number" required="required"/>
+		            			</div>
+		            		</div>
+		            		<div class="col-md-12">
+		            			<div class="col-md-5">
+	            		   	 		<h4 class="title text-left">Expiration date</h4>
+	            		   	 	</div>
+	            		   	 	<div class="col-md-7">
+	            		   	 		<div class="col-md-6">
+	            		   	 			<select id="expirationMonth" th:field="*{expirationMonth}" required="required">
+  											<option th:each="expirationMonth : ${listMonths}" 
+          											th:value="${expirationMonth}" 
+         										    th:text="${expirationMonth}">
+  											</option>
+										</select>
+	            		   	 		</div>
+	            		   	 		<div class="col-md-6">
+	            		   	 			<select th:field="*{expirationYear}" required="required">
+  											<option th:each="expirationYear : ${listYear}" 
+          											th:value="${expirationYear}" 
+         										    th:text="${expirationYear}">
+  											</option>
+										</select>
+	            		   	 		</div>
+	            		   	 	</div>	            		   	 	
+		            		</div>
+		            		<div class="divBackButton">
+	            				<a type="submit" th:href="@{'/'}+${urlBack}" class="btn btn-default backButtonCustom" id="btnBackCreditCard"> Back</a>	
+								<button type="submit" name="action" class="pull-right">Save</button>					
+							</div>
+						</form>
+				      </div>			         
+	    			</div>
+	    		</div>  			
+	    	</div>  
+    	</div><!--/#contact-page-->
+	<div th:replace="footer :: peo"></div>
+</body>
+</html>

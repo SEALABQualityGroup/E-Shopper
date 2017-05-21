@@ -1,0 +1,51 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: peo"></head>
+<body>
+	 <div id="login-setting-page" class="container">
+    	<div class="bg">
+    		<div class="row">  	  
+	    			<div class="col-md-5 col-md-offset-4">
+	    				<div class="data-setting-form">
+			    			<h2 class="title text-center">ADD AN ADDRESS</h2>
+			    			<div th:if="${errorSave} == true" class="panel-error-data">								
+								<h6>Error saving data</h6>
+							</div>	
+		    				<form action="#" th:action="@{/saveNewAddress}+'/'+${provenienza}" th:object="${address}" method="POST" enctype="application/json">					    	
+
+								<input type="text" placeholder="Full name"  th:maxlength="45" required="required" th:value="${address.fullName}" name="fullName" th:type="text" />
+								<input type="text" placeholder="Address line 1"  th:maxlength="45"   required="required" th:value="${address.address1}" name="address1" th:type="text" />
+								<input type="text" placeholder="Address line 2"  th:maxlength="45"   th:value="${address.address2}" name="address2" th:type="text" />
+								<input type="text" placeholder="City"  th:maxlength="45"  required="required" th:value="${address.city}" name="city" th:type="text" />
+								<input type="text" placeholder="State"  th:maxlength="45"   required="required" th:value="${address.state}" name="state" th:type="text" />
+								<input type="text" placeholder="Province"  th:maxlength="45"   required="required" th:value="${address.province}" name="province" th:type="text" />
+								<input type="text" placeholder="Zip"  required="required" th:value="${address.zip}"  maxlength="5" oninput="maxLengthCheck(this)" name="zip" th:type="number" />
+								<input type="text" placeholder="Phone Number" th:maxlength="45" required="required" 	th:value="${address.phoneNumeber}" name="phoneNumeber" th:type="number" />								
+								<div>
+									<div class="col-md-3">
+										<a type="submit" th:href="@{'/'}+${urlBack}" class="btn btn-default backButton" id="btnOrdeBackAddress"> Back</a>
+									</div>
+									<div class="col-md-3">
+										<button type="submit" name="action" value="saveEContinue" class="btn btn-default">Save </button>					
+									</div>
+									<div class="col-md-5">
+										<button type="submit" name="action" value="saveEPayment" id="buttonSaveAddEPay" class="btn btn-default">Save and Payment Method</button>
+									</div>
+								</div>
+							</form>
+				         </div>			         
+	    			</div>
+	    		</div>  			
+	    	</div>  
+	    	<script>
+			  function maxLengthCheck(object)
+			  {
+			    if (object.value.length > object.maxLength)
+			      object.value = object.value.slice(0, object.maxLength)
+			  }
+			</script>
+    	</div><!--/#contact-page-->
+	<div th:replace="footer :: peo"></div>
+</body>
+</html>
