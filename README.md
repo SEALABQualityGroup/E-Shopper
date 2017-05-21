@@ -103,7 +103,9 @@ DELETE	|/deleteWishListById/{idWishList}	| Delete an element of the wishlist	|x 
 ## Infrastructure services
 
  [Spring cloud](http://projects.spring.io/spring-cloud/) provides powerful tools that enhance Spring Boot applications behaviour to implement patterns which could help us to make described core services work. The figure below shows how the E-shopper application was designed and implemented infrastructurally.
- <img></img>
+
+ ![Alt text](https://github.com/SEALABQualityGroup/microservices-application/blob/master/progetto-microservizi.png ")
+
  ### Microservice-demo-config
 [Spring Cloud Config](http://cloud.spring.io/spring-cloud-config/spring-cloud-config.html) is horizontally scalable centralized configuration service for distributed systems. In this project, it used as 'native profile'. We can consider this as an external file container. The folder *shared* contains all the .yml files of the all microservices, they only have bootstrap.yml inside them and no other file .yml. The `bootstrap.yml` contains the name of the microservice and the url of the config. For example
 ```yml
@@ -126,7 +128,8 @@ Client support enabled with `@EnableDiscoveryClient` annotation
 
  ### Microservice-demo-security
  This is the only module that is not a microservice, but it is a common library used by all microservices; it invokes the `microservice-demo accounts` in order to manage the authenticatcation. This is a common layer that provides a *Credential Provider* implemented as a Spring compononent, that can be injected and used as a custom class in the security configuration of a microservices
- <img></img>
+
+ ![Alt text](https://github.com/SEALABQualityGroup/microservices-application/blob/master/progetto-microservizi2.png ")
  
 The security used is `spring-boot-starter-security`.
 
