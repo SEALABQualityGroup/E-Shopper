@@ -155,7 +155,7 @@ This means that all requests that start with /accounts will be routed to the mic
 Requirements:
 -	jdk 1.8
 -	Apache Maven 3.5.0+
--	MySQL WorkBench 6.3
+-	MySQL 5.6
 -	IDE STS (Spring Tool Suite), IntelliJ IDEA.
 
 The startup order is important to avoid failures, it is necessary to run the microservices in this order:
@@ -173,6 +173,28 @@ server:
     	port: ${ACCOUNT_SERVICE_PORT}  # HTTP (Tomcat) port
 ```
 Once the configuration has been completer, it is possible to run the microservices in two ways:
+### Database
+An advantage of the microservices architecture is that each core microservices  has its own database and its own schema.
+The script to create the schema is, for example:
+```sql
+CREATE SCHEMA `microservices` DEFAULT CHARACTER SET utf8 ;
+CREATE USER 'microservices'@'localhost' IDENTIFIED BY 'microservices';
+GRANT ALL PRIVILEGES ON *.microservices TO 'microservices'@'localhost';
+```
+The schema must be configured in the *db-config.properties*:
+```yml
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/microservices
+spring.datasource.username=microuser
+spring.datasource.password=micropassword
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+```
+In this project, for an easly usage during developments, it was used just one schema (the script is located at the following path: *...\microservices-demo*). 
+For this reason each microservice has the same *db-config.properties* properties file.
+If you decide to use different schema for microservices, you must run each script properly configured (the schema name, the username and the password of the user).
+
+There are two different ways to create the tables for each microservices:
+- running the script **createXXX.sql** from the db client tool (the file  is located in each microservice at the followig path: *…\microservices-application-master\nameMicroserivices\src\main\resources.*  These files contain already the scripts in order to popolate the Typological tables)
+- using the Hibernate forward engineering. Once the microservices are up and running, you must run the scripts **insertXXX.sql** from the db client tool (path:*…\microservices-application-master\noameMicroserivicessrc\main\resources.* )
 
 ### STS
 STS provides a *Boot Dashboard* where you can manage the status and configure the environment variable for each microservices ; the environment variable can be set here in *Boot Dashboard --> Debug configuration*. 
