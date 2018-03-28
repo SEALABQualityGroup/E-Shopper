@@ -14,7 +14,7 @@ ribbon:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://user:password@localhost:1111/eureka/
+      defaultZone: http://user:password@registration:1111/eureka/
       registerWithEureka: true
       fetchRegistry: true
 

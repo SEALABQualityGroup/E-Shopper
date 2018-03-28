@@ -5,7 +5,7 @@ spring:
     store-type: none
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://config:8888
       fail-fast: true
       password: password
       username: user
@@ -18,6 +18,6 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
     service-url:
-      defaultZone:  http://user:password@localhost:1111/eureka/
+      defaultZone:  http://user:password@registration:1111/eureka/
   server:
       waitTimeInMsWhenSyncEmpty: 0

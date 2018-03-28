@@ -1,0 +1,36 @@
+version: '2.1'
+
+services:
+  config:
+    image: config
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8888"]
+      interval: 10s
+      timeout: 1m
+  registration:
+    image: registration
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:1111"]
+      interval: 10s
+      timeout: 1m
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - "1111:1111"
+  gateway:
+    image: gateway
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:4000"]
+      interval: 10s
+      timeout: 1m   
+    depends_on:
+      registration:
+        condition: service_healthy
+  web-server:
+    image: web
+    depends_on:
+      gateway:
+        condition: service_healthy
+    ports:
+      - "3333:80"
