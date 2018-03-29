@@ -7,6 +7,9 @@ spring:
     config:
       uri: http://config:8888
       fail-fast: true
+      retry:
+        max-attempts: 300
+        max-interval: 1000
       password: password
       username: user
 
