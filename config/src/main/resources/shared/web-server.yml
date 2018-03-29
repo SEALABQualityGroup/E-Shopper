@@ -16,13 +16,16 @@ error:
 
 # Discovery Server Access
 eureka:
+        #  enabled: true
   client:
     serviceUrl:
-      defaultZone: http://registration:1111/eureka/
+      defaultZone: http://user:password@registration:1111/eureka/
+      #      registerWithEureka: true
+      #      fetchRegistry: true
 
-  instance:
-    preferIpAddress: true
-    ip-address: localhost
+      #  instance:
+      #    preferIpAddress: true
+      #    ip-address: localhost
 
 # HTTP Server
 server:

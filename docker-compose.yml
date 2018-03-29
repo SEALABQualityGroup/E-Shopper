@@ -27,10 +27,50 @@ services:
     depends_on:
       registration:
         condition: service_healthy
+  accounts-server:
+    image: accounts-server
+    depends_on:
+      gateway:
+        condition: service_healthy
+  cart-server:
+    image: cart-server
+    depends_on:
+      gateway:
+        condition: service_healthy
+  categories-server:
+    image: categories-server
+    depends_on:
+      gateway:
+        condition: service_healthy
+  items-server:
+    image: items-server
+    depends_on:
+      gateway:
+        condition: service_healthy
+  login-server:
+    image: login-server
+    depends_on:
+      gateway:
+        condition: service_healthy
+  order-server:
+    image: order-server
+    depends_on:
+      gateway:
+        condition: service_healthy
+  products-server:
+    image: products-server
+    depends_on:
+      gateway:
+        condition: service_healthy
+  wishlist-server:
+    image: wishlist-server
+    depends_on:
+      gateway:
+        condition: service_healthy
   web-server:
-    image: web
+    image: web-server
     depends_on:
       gateway:
         condition: service_healthy
     ports:
-      - "3333:80"
+      - "80:3333"

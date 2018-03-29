@@ -6,12 +6,12 @@ error:
 eureka:
   client:
     serviceUrl:
-     defaultZone: http://user:password@localhost:1111/eureka/
+     defaultZone: http://user:password@registration:1111/eureka/
 
-  instance:
-    preferIpAddress: true
-    #server ip address
-    ip-address: localhost
+     #  instance:
+     #    preferIpAddress: true
+     #    #server ip address
+     #    ip-address: localhost
 
 # HTTP Server
 server:

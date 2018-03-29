@@ -12,6 +12,7 @@ ribbon:
   
 # Discovery Server Access
 eureka:
+        #enabled: true
   client:
     serviceUrl:
       defaultZone: http://user:password@registration:1111/eureka/
