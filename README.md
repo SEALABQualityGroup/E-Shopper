@@ -178,8 +178,8 @@ An advantage of the microservices architecture is that each core microservices  
 The script to create the schema is, for example:
 ```sql
 CREATE SCHEMA `microservices` DEFAULT CHARACTER SET utf8 ;
-CREATE USER 'microservices'@'localhost' IDENTIFIED BY 'microservices';
-GRANT ALL PRIVILEGES ON *.microservices TO 'microservices'@'localhost';
+CREATE USER 'microservices'@'%' IDENTIFIED BY 'microservices';
+GRANT ALL PRIVILEGES ON microservices.* TO 'microservices'@'%';
 ```
 The schema must be configured in the *db-config.properties*:
 ```yml
