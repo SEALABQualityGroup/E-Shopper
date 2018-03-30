@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  config:
+    image: config
+  registration:
+    image: registration
+    ports:
+      - "1111:1111"
+  gateway:
+    image: gateway
+    
