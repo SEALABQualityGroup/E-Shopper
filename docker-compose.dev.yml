@@ -9,4 +9,23 @@ services:
       - "1111:1111"
   gateway:
     image: gateway
-    
+  accounts-server:
+    image: accounts-server
+  cart-server:
+    image: cart-server
+  categories-server:
+    image: categories-server
+  items-server:
+    image: items-server
+  login-server:
+    image: login-server    
+  order-server:
+    image: order-server
+  products-server:
+    image: products-server
+  wishlist-server:
+    image: wishlist-server
+  web-server:
+    image: web-server
+    ports:
+      - "80:3333"
