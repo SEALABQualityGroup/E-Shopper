@@ -1,5 +1,5 @@
 FROM java:8-jre
-MAINTAINER sealabaq
+LABEL maintainer="sealabaq"
 
 COPY target/microservice-demo-config-0.0.1-SNAPSHOT.jar /app/
 ENTRYPOINT ["/usr/bin/java"]
