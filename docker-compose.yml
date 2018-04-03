@@ -1,76 +1,105 @@
-version: '2.1'
+version: '3'
 
 services:
   config:
     image: config
-    healthcheck:
-      test: ["CMD", "curl", "http://localhost:8888"]
-      interval: 10s
-      timeout: 1m
   registration:
     image: registration
-    healthcheck:
-      test: ["CMD", "curl", "http://localhost:1111"]
-      interval: 10s
-      timeout: 1m
-    depends_on:
-      config:
-        condition: service_healthy
     ports:
       - "1111:1111"
   gateway:
     image: gateway
-    healthcheck:
-      test: ["CMD", "curl", "http://localhost:4000"]
-      interval: 10s
-      timeout: 1m   
-    depends_on:
-      registration:
-        condition: service_healthy
   accounts-server:
     image: accounts-server
     depends_on:
-      gateway:
-        condition: service_healthy
+      - "accounts-db"
+  accounts-db:
+    image: accounts-db
+    volumes:
+      - accounts-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   cart-server:
     image: cart-server
     depends_on:
-      gateway:
-        condition: service_healthy
+      - "cart-db"
+  cart-db:
+    image: cart-db
+    volumes:
+      - cart-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   categories-server:
     image: categories-server
     depends_on:
-      gateway:
-        condition: service_healthy
+      - "categories-db"
+  categories-db:
+    image: categories-db
+    volumes:
+      - categories-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   items-server:
     image: items-server
     depends_on:
-      gateway:
-        condition: service_healthy
+      - "items-db"
+  items-db:
+    image: items-db
+    volumes:
+      - items-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   login-server:
     image: login-server
     depends_on:
-      gateway:
-        condition: service_healthy
+      - "login-db"
+  login-db:
+    image: login-db
+    volumes:
+      - login-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   order-server:
     image: order-server
     depends_on:
-      gateway:
-        condition: service_healthy
+      - "order-db"
+  order-db:
+    image: order-db
+    volumes:
+      - order-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   products-server:
     image: products-server
     depends_on:
-      gateway:
-        condition: service_healthy
+      - "products-db"
+  products-db:
+    image: products-db
+    volumes:
+      - products-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   wishlist-server:
     image: wishlist-server
     depends_on:
-      gateway:
-        condition: service_healthy
+      - "wishlist-db"
+  wishlist-db:
+    image: wishlist-db
+    volumes:
+      - wishlist-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   web-server:
     image: web-server
-    depends_on:
-      gateway:
-        condition: service_healthy
     ports:
       - "80:3333"
+
+volumes:
+  accounts-data:
+  cart-data:
+  categories-data:
+  items-data:
+  login-data:
+  order-data:
+  products-data:
+  wishlist-data:

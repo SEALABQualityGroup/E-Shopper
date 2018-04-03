@@ -16,8 +16,8 @@ public class Main {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) throws SocketException, ParseException {
 
-		String eurekaIp = "198.168.1.106" ;
-		String dbServer = "127.0.0.1";
+		String eurekaIp = "registration" ;
+		String dbServer = "web-db";
 		String maxThreads = "500";
 		String serverPort;
 
@@ -34,9 +34,9 @@ public class Main {
 		System.setProperty("spring.datasource.min-idle",
 				String.valueOf((int) Math.ceil(Integer.valueOf(maxThreads) / 4)));
 
-		System.setProperty("eureka.ip", "198.168.1.106");
+		System.setProperty("eureka.ip", "registration");
 		System.setProperty("datasource.url", dbServer);
-		System.setProperty("server.address", "192.168.1.106");
+		System.setProperty("server.address", "registration");
 
 		serverName = "registration";
 		System.setProperty("spring.config.name", serverName + "-server");
