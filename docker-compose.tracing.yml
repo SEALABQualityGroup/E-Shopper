@@ -7,7 +7,7 @@ services:
       - cluster.name=docker-cluster
       - discovery.type=single-node
     volumes:
-      - esdata
+      - esdata:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
   zipkin:
