@@ -36,14 +36,14 @@ services:
   #     - cart-data:/var/lib/mysql
   #   environment:
   #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  # categories:
-  #   build:
-  #     context: ./categories
-  #   depends_on:
-  #     - "categories-db"
-  # categories-db:
-  #   build:
-  #     context: ./categories-db
+  categories:
+    build:
+      context: ./categories
+    depends_on:
+      - "categories-db"
+  categories-db:
+    build:
+      context: ./categories-db
   #   volumes:
   #     - categories-data:/var/lib/mysql
   #   environment:
@@ -113,7 +113,7 @@ services:
       context: ./web
     ports:
       - "80:3333"
-    
+
 volumes:
   accounts-data:
   cart-data:
