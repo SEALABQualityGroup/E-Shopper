@@ -12,108 +12,108 @@ services:
   gateway:
     build:
       context: ./gateway
-  accounts:
-    build:
-      context: ./accounts
-    depends_on:
-      - "accounts-db"
-  accounts-db:
-    build:
-      context: ./accounts-db
-    volumes:
-      - accounts-data:/var/lib/mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  cart:
-    build:
-      context: ./cart
-    depends_on:
-      - "cart-db"
-  cart-db:
-    build:
-      context: ./cart-db
-    volumes:
-      - cart-data:/var/lib/mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  categories:
-    build:
-      context: ./categories
-    depends_on:
-      - "categories-db"
-  categories-db:
-    build:
-      context: ./categories-db
-    volumes:
-      - categories-data:/var/lib/mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  items:
-    build:
-      context: ./items
-    depends_on:
-      - "items-db"
-  items-db:
-    build:
-      context: ./items-db
-    volumes:
-      - items-data:/var/lib/mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  login:
-    build:
-      context: ./login
-    depends_on:
-      - "login-db"
-  login-db:
-    build:
-      context: ./login-db
-    volumes:
-      - login-data:/var/lib/mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  order:
-    build:
-      context: ./order
-    depends_on:
-      - "order-db"
-  order-db:
-    build:
-      context: ./order-db
-    volumes:
-      - order-data:/var/lib/mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  products:
-    build:
-      context: ./products
-    depends_on:
-      - "products-db"
-  products-db:
-    build:
-      context: ./products-db
-    volumes:
-      - products-data:/var/lib/mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  wishlist:
-    build:
-      context: ./wishlist
-    depends_on:
-      - "wishlist-db"
-  wishlist-db:
-    build:
-      context: ./wishlist-db
-    volumes:
-      - wishlist-data:/var/lib/mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  # accounts:
+  #   build:
+  #     context: ./accounts
+  #   depends_on:
+  #     - "accounts-db"
+  # accounts-db:
+  #   build:
+  #     context: ./accounts-db
+  #   volumes:
+  #     - accounts-data:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  # cart:
+  #   build:
+  #     context: ./cart
+  #   depends_on:
+  #     - "cart-db"
+  # cart-db:
+  #   build:
+  #     context: ./cart-db
+  #   volumes:
+  #     - cart-data:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  # categories:
+  #   build:
+  #     context: ./categories
+  #   depends_on:
+  #     - "categories-db"
+  # categories-db:
+  #   build:
+  #     context: ./categories-db
+  #   volumes:
+  #     - categories-data:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  # items:
+  #   build:
+  #     context: ./items
+  #   depends_on:
+  #     - "items-db"
+  # items-db:
+  #   build:
+  #     context: ./items-db
+  #   volumes:
+  #     - items-data:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  # login:
+  #   build:
+  #     context: ./login
+  #   depends_on:
+  #     - "login-db"
+  # login-db:
+  #   build:
+  #     context: ./login-db
+  #   volumes:
+  #     - login-data:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  # order:
+  #   build:
+  #     context: ./order
+  #   depends_on:
+  #     - "order-db"
+  # order-db:
+  #   build:
+  #     context: ./order-db
+  #   volumes:
+  #     - order-data:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  # products:
+  #   build:
+  #     context: ./products
+  #   depends_on:
+  #     - "products-db"
+  # products-db:
+  #   build:
+  #     context: ./products-db
+  #   volumes:
+  #     - products-data:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  # wishlist:
+  #   build:
+  #     context: ./wishlist
+  #   depends_on:
+  #     - "wishlist-db"
+  # wishlist-db:
+  #   build:
+  #     context: ./wishlist-db
+  #   volumes:
+  #     - wishlist-data:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   web:
     build:
       context: ./web
     ports:
       - "80:3333"
-
+    
 volumes:
   accounts-data:
   cart-data:
