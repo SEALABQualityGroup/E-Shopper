@@ -44,10 +44,10 @@ services:
   categories-db:
     build:
       context: ./categories-db
-  #   volumes:
-  #     - categories-data:/var/lib/mysql
-  #   environment:
-  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+    volumes:
+      - categories-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   # items:
   #   build:
   #     context: ./items
