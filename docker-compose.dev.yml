@@ -48,18 +48,18 @@ services:
       - categories-data:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  # items:
-  #   build:
-  #     context: ./items
-  #   depends_on:
-  #     - "items-db"
-  # items-db:
-  #   build:
-  #     context: ./items-db
-  #   volumes:
-  #     - items-data:/var/lib/mysql
-  #   environment:
-  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  items:
+    build:
+      context: ./items
+    depends_on:
+      - "items-db"
+  items-db:
+    build:
+      context: ./items-db
+    volumes:
+      - items-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   # login:
   #   build:
   #     context: ./login
@@ -84,18 +84,18 @@ services:
   #     - order-data:/var/lib/mysql
   #   environment:
   #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  # products:
-  #   build:
-  #     context: ./products
-  #   depends_on:
-  #     - "products-db"
-  # products-db:
-  #   build:
-  #     context: ./products-db
-  #   volumes:
-  #     - products-data:/var/lib/mysql
-  #   environment:
-  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  products:
+    build:
+      context: ./products
+    depends_on:
+      - "products-db"
+  products-db:
+    build:
+      context: ./products-db
+    volumes:
+      - products-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   # wishlist:
   #   build:
   #     context: ./wishlist
