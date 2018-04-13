@@ -4,14 +4,17 @@ services:
   config:
     build:
       context: ./config
+    image: selabaq/config
   registration:
     build:
       context: ./registration
+    image: selabaq/registration
     ports:
       - "1111:1111"
   gateway:
     build:
       context: ./gateway
+    image: selabaq/gateway:sleuth
   # accounts:
   #   build:
   #     context: ./accounts
@@ -39,11 +42,13 @@ services:
   categories:
     build:
       context: ./categories
+    image: selabaq/categories:sleuth
     depends_on:
       - "categories-db"
   categories-db:
-    build:
+    build: 
       context: ./categories-db
+    image: selabaq/categories-db
     volumes:
       - categories-data:/var/lib/mysql
     environment:
@@ -51,11 +56,13 @@ services:
   items:
     build:
       context: ./items
+    image: selabaq/items:sleuth
     depends_on:
       - "items-db"
   items-db:
     build:
       context: ./items-db
+    image: selabaq/items-db
     volumes:
       - items-data:/var/lib/mysql
     environment:
@@ -87,11 +94,13 @@ services:
   products:
     build:
       context: ./products
+    image: selabaq/products:sleuth
     depends_on:
       - "products-db"
   products-db:
     build:
       context: ./products-db
+    image: selabaq/products-db
     volumes:
       - products-data:/var/lib/mysql
     environment:
@@ -111,6 +120,7 @@ services:
   web:
     build:
       context: ./web
+    image: selabaq/web:sleuth
     ports:
       - "80:3333"
 
