@@ -15,30 +15,34 @@ services:
     build:
       context: ./gateway
     image: selabaq/gateway:sleuth
-  # accounts:
-  #   build:
-  #     context: ./accounts
-  #   depends_on:
-  #     - "accounts-db"
-  # accounts-db:
-  #   build:
-  #     context: ./accounts-db
-  #   volumes:
-  #     - accounts-data:/var/lib/mysql
-  #   environment:
-  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  # cart:
-  #   build:
-  #     context: ./cart
-  #   depends_on:
-  #     - "cart-db"
-  # cart-db:
-  #   build:
-  #     context: ./cart-db
-  #   volumes:
-  #     - cart-data:/var/lib/mysql
-  #   environment:
-  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  accounts:
+    build:
+      context: ./accounts
+    image: selabaq/accounts
+    depends_on:
+      - "accounts-db"
+  accounts-db:
+    build:
+      context: ./accounts-db
+    image: selabaq/accounts-db
+    volumes:
+      - accounts-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  cart:
+    build:
+      context: ./cart
+    image: selabaq/cart
+    depends_on:
+      - "cart-db"
+  cart-db:
+    build:
+      context: ./cart-db
+    image: selabaq/cart-db
+    volumes:
+      - cart-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   categories:
     build:
       context: ./categories
@@ -67,30 +71,34 @@ services:
       - items-data:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  # login:
-  #   build:
-  #     context: ./login
-  #   depends_on:
-  #     - "login-db"
-  # login-db:
-  #   build:
-  #     context: ./login-db
-  #   volumes:
-  #     - login-data:/var/lib/mysql
-  #   environment:
-  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  # order:
-  #   build:
-  #     context: ./order
-  #   depends_on:
-  #     - "order-db"
-  # order-db:
-  #   build:
-  #     context: ./order-db
-  #   volumes:
-  #     - order-data:/var/lib/mysql
-  #   environment:
-  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  login:
+    build:
+      context: ./login
+    image: selabaq/login
+    depends_on:
+      - "login-db"
+  login-db:
+    build:
+      context: ./login-db
+    image: selabaq/login-db
+    volumes:
+      - login-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  order:
+    build:
+      context: ./order
+    image: selabaq/order
+    depends_on:
+      - "order-db"
+  order-db:
+    build:
+      context: ./order-db
+    image: selabaq/order-db
+    volumes:
+      - order-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1" 
   products:
     build:
       context: ./products
@@ -105,18 +113,20 @@ services:
       - products-data:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  # wishlist:
-  #   build:
-  #     context: ./wishlist
-  #   depends_on:
-  #     - "wishlist-db"
-  # wishlist-db:
-  #   build:
-  #     context: ./wishlist-db
-  #   volumes:
-  #     - wishlist-data:/var/lib/mysql
-  #   environment:
-  #     MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  wishlist:
+    build:
+      context: ./wishlist
+    image: selabaq/wishlist
+    depends_on:
+      - "wishlist-db"
+  wishlist-db:
+    build:
+      context: ./wishlist-db
+    image: selabaq/wishlist-db
+    volumes:
+      - wishlist-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   web:
     build:
       context: ./web

@@ -2,95 +2,95 @@ version: '3'
 
 services:
   config:
-    image: config
+    image: selabaq/config
   registration:
-    image: registration
+    image: selabaq/registration
     ports:
       - "1111:1111"
   gateway:
-    image: gateway
-  accounts-server:
-    image: accounts-server
+    image: selabaq/gateway:sleuth
+  accounts:
+    image: selabaq/accounts
     depends_on:
       - "accounts-db"
   accounts-db:
-    image: accounts-db
+    image: selabaq/accounts-db
     volumes:
       - accounts-data:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  cart-server:
-    image: cart-server
+  cart:
+    image: selabaq/cart
     depends_on:
       - "cart-db"
   cart-db:
-    image: cart-db
+    image: selabaq/cart-db
     volumes:
       - cart-data:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  categories-server:
-    image: categories-server
+  categories:
+    image: selabaq/categories:sleuth
     depends_on:
       - "categories-db"
   categories-db:
-    image: categories-db
+    image: selabaq/categories-db
     volumes:
       - categories-data:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  items-server:
-    image: items-server
+  items:
+    image: selabaq/items:sleuth
     depends_on:
       - "items-db"
   items-db:
-    image: items-db
+    image: selabaq/items-db
     volumes:
       - items-data:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  login-server:
-    image: login-server
+  login:
+    image: selabaq/login
     depends_on:
       - "login-db"
   login-db:
-    image: login-db
+    image: selabaq/login-db
     volumes:
       - login-data:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  order-server:
-    image: order-server
+  order:
+    image: selabaq/order
     depends_on:
       - "order-db"
   order-db:
-    image: order-db
+    image: selabaq/order-db
     volumes:
       - order-data:/var/lib/mysql
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  products-server:
-    image: products-server
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1" 
+  products:
+    image: selabaq/products:sleuth
     depends_on:
       - "products-db"
   products-db:
-    image: products-db
+    image: selabaq/products-db
     volumes:
       - products-data:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  wishlist-server:
-    image: wishlist-server
+  wishlist:
+    image: selabaq/wishlist
     depends_on:
       - "wishlist-db"
   wishlist-db:
-    image: wishlist-db
+    image: selabaq/wishlist-db
     volumes:
       - wishlist-data:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  web-server:
-    image: web-server
+  web:
+    image: selabaq/web:sleuth
     ports:
       - "80:3333"
 
