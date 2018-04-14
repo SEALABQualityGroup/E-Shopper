@@ -4,22 +4,27 @@ services:
   config:
     build:
       context: ./config
+    image: selabaq/config
   registration:
     build:
       context: ./registration
+    image: selabaq/registration
     ports:
       - "1111:1111"
   gateway:
     build:
       context: ./gateway
+    image: selabaq/gateway
   accounts:
     build:
       context: ./accounts
+    image: selabaq/accounts
     depends_on:
       - "accounts-db"
   accounts-db:
     build:
       context: ./accounts-db
+    image: selabaq/accounts-db
     volumes:
       - accounts-data:/var/lib/mysql
     environment:
@@ -27,11 +32,13 @@ services:
   cart:
     build:
       context: ./cart
+    image: selabaq/cart
     depends_on:
       - "cart-db"
   cart-db:
     build:
       context: ./cart-db
+    image: selabaq/cart-db
     volumes:
       - cart-data:/var/lib/mysql
     environment:
@@ -39,11 +46,13 @@ services:
   categories:
     build:
       context: ./categories
+    image: selabaq/categories
     depends_on:
       - "categories-db"
   categories-db:
     build:
       context: ./categories-db
+    image: selabaq/categories-db
     volumes:
       - categories-data:/var/lib/mysql
     environment:
@@ -51,11 +60,13 @@ services:
   items:
     build:
       context: ./items
+    image: selabaq/items
     depends_on:
       - "items-db"
   items-db:
     build:
       context: ./items-db
+    image: selabaq/items-db
     volumes:
       - items-data:/var/lib/mysql
     environment:
@@ -63,11 +74,13 @@ services:
   login:
     build:
       context: ./login
+    image: selabaq/login
     depends_on:
       - "login-db"
   login-db:
     build:
       context: ./login-db
+    image: selabaq/login-db
     volumes:
       - login-data:/var/lib/mysql
     environment:
@@ -75,11 +88,13 @@ services:
   order:
     build:
       context: ./order
+    image: selabaq/order
     depends_on:
       - "order-db"
   order-db:
     build:
       context: ./order-db
+    image: selabaq/order-db
     volumes:
       - order-data:/var/lib/mysql
     environment:
@@ -87,11 +102,13 @@ services:
   products:
     build:
       context: ./products
+    image: selabaq/products
     depends_on:
       - "products-db"
   products-db:
     build:
       context: ./products-db
+    image: selabaq/products-db
     volumes:
       - products-data:/var/lib/mysql
     environment:
@@ -99,11 +116,13 @@ services:
   wishlist:
     build:
       context: ./wishlist
+    image: selabaq/wishlist
     depends_on:
       - "wishlist-db"
   wishlist-db:
     build:
       context: ./wishlist-db
+    image: selabaq/wishlist-db
     volumes:
       - wishlist-data:/var/lib/mysql
     environment:
@@ -111,6 +130,7 @@ services:
   web:
     build:
       context: ./web
+    image: selabaq/web
     ports:
       - "80:3333"
 
