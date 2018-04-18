@@ -17,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 
 import it.univaq.ing.security.CustomCredentialProvider;
 
+import io.jaegertracing.Configuration;
+
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableZuulProxy
@@ -27,6 +29,17 @@ public class GatewayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GatewayApplication.class, args);
 	}
+
+	@Bean
+	public io.opentracing.Tracer jaegerTracer() {
+		return new Configuration(
+					"gateway",
+					new Configuration.SamplerConfiguration("const", 1),
+					new Configuration.ReporterConfiguration(
+						false, "jaeger", 5775, 1000, 10000)
+					).getTracer();
+	}
+
 	
 	@Bean
 	@LoadBalanced

@@ -5,8 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.context.annotation.Bean;
 
 import it.univaq.ing.categories.services.CategoriesServer;
+
+import io.jaegertracing.Configuration;
 
 /**
  * The categories web-application. This class has two uses:
@@ -27,6 +30,16 @@ import it.univaq.ing.categories.services.CategoriesServer;
 //@EnableFeignClients
 //@Configuration
 public class CategoriesWebApplication {
+
+	@Bean
+	public io.opentracing.Tracer jaegerTracer() {
+		return new Configuration(
+					"categories",
+					new Configuration.SamplerConfiguration("const", 1),
+					new Configuration.ReporterConfiguration(
+						false, "jaeger", 5775, 1000, 10000)
+					).getTracer();
+	}
 
 	public static void main(String[] args){
 		SpringApplication.run(CategoriesWebApplication.class, args);

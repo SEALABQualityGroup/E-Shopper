@@ -14,7 +14,7 @@ services:
   gateway:
     build:
       context: ./gateway
-    image: selabaq/gateway
+    image: selabaq/gateway:opentracing
   accounts:
     build:
       context: ./accounts
@@ -46,7 +46,7 @@ services:
   categories:
     build:
       context: ./categories
-    image: selabaq/categories
+    image: selabaq/categories:opentracing
     depends_on:
       - "categories-db"
   categories-db:
@@ -130,7 +130,7 @@ services:
   web:
     build:
       context: ./web
-    image: selabaq/web
+    image: selabaq/web:opentracing
     ports:
       - "80:3333"
 

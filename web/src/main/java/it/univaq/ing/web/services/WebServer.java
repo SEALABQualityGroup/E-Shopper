@@ -25,6 +25,7 @@ import it.univaq.ing.web.controller.WebOrderController;
 import it.univaq.ing.web.controller.WebProductsController;
 import it.univaq.ing.web.controller.WebWishListController;
 
+import io.jaegertracing.Configuration;
 /**
  * Accounts web-server. Works as a microservice client, fetching data from the
  * Account-Service. Uses the Discovery Server (Eureka) to find the microservice.
@@ -82,6 +83,17 @@ public class WebServer {
 	public static void main(String[] args) {
 		System.setProperty("spring.config.name", "web-server");
 		SpringApplication.run(WebServer.class, args);
+	}
+
+
+	@Bean
+	public io.opentracing.Tracer jaegerTracer() {
+		return new Configuration(
+					"web",
+					new Configuration.SamplerConfiguration("const", 1),
+					new Configuration.ReporterConfiguration(
+						false, "jaeger", 5775, 1000, 10000)
+					).getTracer();
 	}
 
 	/**
