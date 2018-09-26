@@ -15,7 +15,12 @@ spring:
     enabled: false           # Ignore Eureka dashboard FreeMarker templates
   session:
     store-type: none
-    
+  zipkin:
+    # Uncomment to send to zipkin, replacing 192.168.99.100 with your zipkin IP address
+    baseUrl: http://zipkin:9411/
+  sleuth:
+    sampler:
+      percentage: 1.0   
   datasource:
     max-active: 5000
     max-idle: 5000

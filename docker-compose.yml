@@ -10,7 +10,7 @@ services:
   gateway:
     image: selabaq/gateway:sleuth
   accounts:
-    image: selabaq/accounts
+    image: selabaq/accounts:sleuth
     depends_on:
       - "accounts-db"
   accounts-db:
@@ -20,7 +20,7 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   cart:
-    image: selabaq/cart
+    image: selabaq/cart:sleuth
     depends_on:
       - "cart-db"
   cart-db:
@@ -50,7 +50,7 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   login:
-    image: selabaq/login
+    image: selabaq/login:sleuth
     depends_on:
       - "login-db"
   login-db:
@@ -60,7 +60,7 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   order:
-    image: selabaq/order
+    image: selabaq/order:sleuth
     depends_on:
       - "order-db"
   order-db:
@@ -80,7 +80,7 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   wishlist:
-    image: selabaq/wishlist
+    image: selabaq/wishlist:sleuth
     depends_on:
       - "wishlist-db"
   wishlist-db:

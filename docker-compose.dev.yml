@@ -18,7 +18,7 @@ services:
   accounts:
     build:
       context: ./accounts
-    image: selabaq/accounts
+    image: selabaq/accounts:sleuth
     depends_on:
       - "accounts-db"
   accounts-db:
@@ -32,7 +32,7 @@ services:
   cart:
     build:
       context: ./cart
-    image: selabaq/cart
+    image: selabaq/cart:sleuth
     depends_on:
       - "cart-db"
   cart-db:
@@ -74,7 +74,7 @@ services:
   login:
     build:
       context: ./login
-    image: selabaq/login
+    image: selabaq/login:sleuth
     depends_on:
       - "login-db"
   login-db:
@@ -88,7 +88,7 @@ services:
   order:
     build:
       context: ./order
-    image: selabaq/order
+    image: selabaq/order:sleuth
     depends_on:
       - "order-db"
   order-db:
@@ -116,7 +116,7 @@ services:
   wishlist:
     build:
       context: ./wishlist
-    image: selabaq/wishlist
+    image: selabaq/wishlist:sleuth
     depends_on:
       - "wishlist-db"
   wishlist-db:
