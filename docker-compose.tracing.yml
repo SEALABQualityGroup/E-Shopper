@@ -23,6 +23,7 @@ services:
   zipkin:
     image: openzipkin/zipkin
     environment:
+        - ES_PIPELINE=zipkin
         - STORAGE_TYPE=elasticsearch
         - ES_HOSTS=http://elasticsearch:9200
         - ES_USERNAME=elastic

@@ -1,0 +1,21 @@
+PUT _ingest/pipeline/zipkin
+{
+    "description": "Rewrite span name",
+    "processors": [
+      {"script": {
+            "source": "ctx.uri= ctx.name"
+        }},
+      {"script": {
+            "source": """
+            if(ctx.kind == 'SERVER'){
+              if(ctx.localEndpoint.serviceName == 'gateway'){
+                ctx.name = 'get'
+              }else{
+                ctx.name= ctx.tags['mvc.controller.class']  + '.'+ 
+                          ctx.tags['mvc.controller.method'] 
+              }
+            }
+            """
+        }}
+    ]
+  }
