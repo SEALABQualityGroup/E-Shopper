@@ -11,8 +11,9 @@ PUT _ingest/pipeline/zipkin
               if(ctx.localEndpoint.serviceName == 'gateway'){
                 ctx.name = 'get'
               }else{
-                ctx.name= ctx.tags['mvc.controller.class']  + '.'+ 
-                          ctx.tags['mvc.controller.method'] 
+                ctx.name= ctx.tags['mvc.controller.class']  +  
+                          ctx.tags['mvc.controller.method'].substring(0, 1).toUpperCase() +
+                          ctx.tags['mvc.controller.method'].substring(1).toLowerCase()
               }
             }
             """
