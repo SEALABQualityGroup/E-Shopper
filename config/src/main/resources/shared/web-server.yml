@@ -37,8 +37,8 @@ server:
 
 logging:
   level:
-    org.springframework: WARN
-    org.springframework.cloud.netflix.eureka: DEBUG
-    org.springframework.security: DEBUG
-    org.thymeleaf: DEBUG
+    org.springframework: ERROR
+    org.springframework.cloud.netflix.eureka: ERROR
+    org.springframework.security: ERROR
+    org.thymeleaf: ERROR
     com.netflix.discovery.TimedSupervisorTask: "OFF"
