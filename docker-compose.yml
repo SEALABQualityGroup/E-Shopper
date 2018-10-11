@@ -91,9 +91,14 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "1"
   web:
     image: selabaq/web:sleuth
+  lb:
+    image: dockercloud/haproxy
+    links:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - "80:3333"
-
+      - 80:80
 volumes:
   accounts-data:
   cart-data:
