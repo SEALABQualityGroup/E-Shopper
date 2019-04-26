@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import it.univaq.ing.items.ItemException;
 import it.univaq.ing.items.domain.Item;
 import it.univaq.ing.items.repository.ItemRepository;
+import it.univaq.ing.items.util.Experiment;
 
 /**
  * 
@@ -23,6 +26,16 @@ import it.univaq.ing.items.repository.ItemRepository;
  */
 @RestController
 public class ItemsController {
+	@Autowired Tracer tracer;
+	
+	@Value("#{'${experiment.findItemsRandomByIdProduct}'.split(',')}")
+	List<String> findItemsRandomByIdProductLatencyInjections;
+
+	@Value("#{'${experiment.findItemRandom}'.split(',')}")
+	List<String> findItemRandomLatencyInjections;
+
+	@Value("#{'${experiment.findFeaturesItemRandom}'.split(',')}")
+	List<String> findFeaturesItemRandomLatencyInjections;
 	
 	protected Logger logger = Logger.getLogger(ItemsController.class.getName());
 
@@ -65,7 +78,7 @@ public class ItemsController {
 	
 	@RequestMapping("/findItemsRandomByProductId/{idProduct}")
 	public List<Item> findItemsRandomByIdProduct(@PathVariable(value="idProduct") Long idProduct) {
-		
+		Experiment.injectLatency(tracer.getCurrentSpan(), findItemsRandomByIdProductLatencyInjections);
 		logger.info("START ItemsController --> findItemsRandomByIdProduct");
 		List<Item> items = new ArrayList<Item>();
 		try{
@@ -125,7 +138,7 @@ public class ItemsController {
 	
 	@RequestMapping("/findItemsRandom")
 	public List<Item> findItemRandom() {
-		
+		Experiment.injectLatency(tracer.getCurrentSpan(), findItemRandomLatencyInjections);
 		logger.info("START ItemsController --> findItemRandom");
 		List<Item> items = new ArrayList<Item>();
 		try{
@@ -140,7 +153,7 @@ public class ItemsController {
 	
 	@RequestMapping("/findFeaturesItemRandom")
 	public List<Item> findFeaturesItemRandom() {
-		
+		Experiment.injectLatency(tracer.getCurrentSpan(), findFeaturesItemRandomLatencyInjections);
 		logger.info("START ItemsController --> findFeaturesItemRandom");
 		List<Item> items = new ArrayList<Item>();
 		try{

@@ -2,9 +2,13 @@ package it.univaq.ing.web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.sleuth.Span;
+import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,34 +27,53 @@ import it.univaq.ing.web.services.WebCartService;
 import it.univaq.ing.web.services.WebCategoriesService;
 import it.univaq.ing.web.services.WebItemsService;
 import it.univaq.ing.web.services.WebProductsService;
+import it.univaq.ing.web.util.Experiment;
 
 /**
  * Home page controller.
  * 
- * @author  LC
+ * @author LC
  */
 @Controller
-@SessionAttributes(value={"accountName", "products", "itemsRecommended", "featuresItems", "categories", "countCartItem"})
+@SessionAttributes(value = { "accountName", "products", "itemsRecommended", "featuresItems", "categories",
+		"countCartItem" })
 public class HomeController {
+
+	@Value("#{'${experiment.home}'.split(',')}")
+	List<String> latencyInjections;
+
+	@Autowired
+	Tracer tracer;
 
 	@Autowired
 	protected WebCategoriesService categoriesService;
-	
+
 	@Autowired
 	protected WebProductsService productsService;
-	
+
 	@Autowired
 	protected WebItemsService itemsService;
-	
+
 	@Autowired
 	protected WebCartService cartService;
-	
+
 	protected Logger logger = Logger.getLogger(HomeController.class.getName());
-	
+
+	protected static Random random = new Random(33);	
+
+	private void addRequestClass(){
+		int requestClass = random.nextInt(latencyInjections.size());
+		Span span = tracer.getCurrentSpan();
+		span.setBaggageItem("experiment", Integer.toString(requestClass));
+		span.tag("experiment", Integer.toString(requestClass));
+	}
+
 	@RequestMapping("/")
 	public String home(Model model) {
-		
+		this.addRequestClass();
+		Experiment.injectLatency(tracer.getCurrentSpan(), latencyInjections);
 		logger.info("START HomeController --> home");
+		
 		try{
 			this.getHomeProduct(model);
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();

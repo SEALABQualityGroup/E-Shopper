@@ -131,8 +131,14 @@ services:
     build:
       context: ./web
     image: selabaq/web:sleuth
+  lb:
+    image: dockercloud/haproxy
+    links:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - "80:3333"
+      - 80:80
 
 volumes:
   accounts-data:

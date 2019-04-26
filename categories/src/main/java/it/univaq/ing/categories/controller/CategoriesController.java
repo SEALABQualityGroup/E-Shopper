@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +15,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import it.univaq.ing.categories.CategoryException;
 import it.univaq.ing.categories.domain.Category;
 import it.univaq.ing.categories.repository.CategoryRepository;
+import it.univaq.ing.categories.util.Experiment;
 /**
  * 
  * @author LC
@@ -22,6 +25,10 @@ import it.univaq.ing.categories.repository.CategoryRepository;
 public class CategoriesController {
 	
 	protected Logger logger = Logger.getLogger(CategoriesController.class.getName());
+	@Autowired Tracer tracer;
+	
+	@Value("#{'${experiment.getCategory}'.split(',')}")
+	List<String> latencyInjections;
 
 	protected CategoryRepository categoryRepository;
 
@@ -32,6 +39,7 @@ public class CategoriesController {
 	
 	@RequestMapping("/category")
 	public List<Category> getCategory(){
+		Experiment.injectLatency(tracer.getCurrentSpan(), latencyInjections);
 		logger.info("START CategoriesController --> getCategory");
 		List<Category> categories = new ArrayList<Category>();
 		try{

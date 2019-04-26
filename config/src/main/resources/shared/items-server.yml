@@ -1,6 +1,5 @@
 # Map the error path to error template (for Thymeleaf)
-error:
-  path=/error
+error: path=/error
 
 # Discovery Server Access
 eureka:
@@ -19,7 +18,12 @@ server:
   #address: 127.0.0.1
   tomcat:
     max-threads: 500
-    
+
 logging:
   level:
-    com.netflix.discovery.TimedSupervisorTask: "OFF"
+    com.netflix.discovery.TimedSupervisorTask: OFF
+
+experiment:
+  findItemsRandomByIdProduct: 0,0,0,0,0,0,0,0,0,0
+  findItemRandom: 0,0,0,0,0,0,0,0,0,0
+  findFeaturesItemRandom: 0,0,0,0,0,0,0,0,0,0

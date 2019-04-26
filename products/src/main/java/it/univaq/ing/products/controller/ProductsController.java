@@ -6,6 +6,8 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import it.univaq.ing.products.ProductException;
 import it.univaq.ing.products.domain.Product;
 import it.univaq.ing.products.repository.ProductRepository;
+import it.univaq.ing.products.util.Experiment;
 
 /**
  * 
@@ -25,6 +28,13 @@ import it.univaq.ing.products.repository.ProductRepository;
 public class ProductsController {
 	
 	protected Logger logger = Logger.getLogger(ProductsController.class.getName());
+	@Autowired Tracer tracer;
+	
+	@Value("#{'${experiment.findProduct}'.split(',')}")
+	List<String> findProductLatencyInjections;
+
+	@Value("#{'${experiment.findProductRandom}'.split(',')}")
+	List<String> findProductRandomLatencyInjections;
 
 	protected ProductRepository productRepository;
 	protected Random randomGenerator = new Random();
@@ -66,7 +76,7 @@ public class ProductsController {
 	
 	@RequestMapping("/findProduct")
 	public List<Product> findProduct() {
-
+		Experiment.injectLatency(tracer.getCurrentSpan(), findProductLatencyInjections);
 		logger.info("START ProductsController --> findProduct");
 		List<Product> products = new ArrayList<Product>();
 		try{
@@ -81,7 +91,7 @@ public class ProductsController {
 	
 	@RequestMapping("/findProductsRandom")
 	public List<Product> findProductRandom() {
-		
+		Experiment.injectLatency(tracer.getCurrentSpan(),  findProductRandomLatencyInjections);
 		logger.info("START ProductsController --> findProductRandom");
 		List<Product> products = new ArrayList<Product>();
 		try{

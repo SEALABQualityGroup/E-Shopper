@@ -17,6 +17,10 @@ PUT _ingest/pipeline/zipkin
               }
             }
             """
+        }
+      },
+      {"script": {
+            "source": "ctx.experiment = ctx.tags['experiment']"
         }}
     ]
   }
