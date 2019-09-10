@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from ruamel_yaml import RoundTripDumper, RoundTripLoader
+from ruamel.yaml import RoundTripDumper, RoundTripLoader
 import numpy as np
 import random
-import ruamel_yaml
+import ruamel.yaml
 import sys
 
 num_patterns =int(sys.argv[1])
@@ -20,7 +20,7 @@ num_sub_ops = len(subops)
 
 def createPattern(num_sub_ops):
     bag = set()
-    k = random.choice(range(2,5))
+    k = random.choice(range(1,5))
     while len(bag) < k:
         bag.add(random.choice(range(num_sub_ops)))
 
@@ -44,8 +44,8 @@ for li, so in zip(latencyInjections, subops):
     cfgFile= './config/src/main/resources/shared/' + so[0] + '.yml'
     method=so[1]
     doc = open(cfgFile ,mode='r')
-    ymlDict = ruamel_yaml.load(doc, Loader=RoundTripLoader)
+    ymlDict = ruamel.yaml.load(doc, Loader=RoundTripLoader)
     doc.close()
     ymlDict['experiment'][method] = ','.join(str(x) for x in li)
     doc = open(cfgFile ,mode='w')
-    ruamel_yaml.dump(ymlDict, doc, Dumper=RoundTripDumper)
+    ruamel.yaml.dump(ymlDict, doc, Dumper=RoundTripDumper)
