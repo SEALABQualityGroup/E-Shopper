@@ -28,3 +28,7 @@ logging:
 experiment:
   findProduct: 0,0,0,0,0,0,0,0,0,0
   findProductRandom: 0,0,0,0,0,0,0,0,0,0
+
+modes:
+  findProduct: 0,0,0,0,0,0,0,0,0,0
+  findProductRandom: 0,0,0,0,0,0,0,0,0,0

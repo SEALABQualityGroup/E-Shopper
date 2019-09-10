@@ -19,6 +19,7 @@ import it.univaq.ing.items.ItemException;
 import it.univaq.ing.items.domain.Item;
 import it.univaq.ing.items.repository.ItemRepository;
 import it.univaq.ing.items.util.Experiment;
+import it.univaq.ing.items.util.SyntheticModes;
 
 /**
  * 
@@ -36,6 +37,16 @@ public class ItemsController {
 
 	@Value("#{'${experiment.findFeaturesItemRandom}'.split(',')}")
 	List<String> findFeaturesItemRandomLatencyInjections;
+
+	@Value("#{'${modes.findItemsRandomByIdProduct}'.split(',')}")
+	List<String> findItemsRandomByIdProductModes;
+
+	@Value("#{'${modes.findItemRandom}'.split(',')}")
+	List<String> findItemRandomModes;
+
+	@Value("#{'${modes.findFeaturesItemRandom}'.split(',')}")
+	List<String> findFeaturesItemRandomModes;
+
 	
 	protected Logger logger = Logger.getLogger(ItemsController.class.getName());
 
@@ -79,6 +90,7 @@ public class ItemsController {
 	@RequestMapping("/findItemsRandomByProductId/{idProduct}")
 	public List<Item> findItemsRandomByIdProduct(@PathVariable(value="idProduct") Long idProduct) {
 		Experiment.injectLatency(tracer.getCurrentSpan(), findItemsRandomByIdProductLatencyInjections);
+		SyntheticModes.injectLatency(findItemsRandomByIdProductModes);
 		logger.info("START ItemsController --> findItemsRandomByIdProduct");
 		List<Item> items = new ArrayList<Item>();
 		try{
@@ -139,6 +151,8 @@ public class ItemsController {
 	@RequestMapping("/findItemsRandom")
 	public List<Item> findItemRandom() {
 		Experiment.injectLatency(tracer.getCurrentSpan(), findItemRandomLatencyInjections);
+		SyntheticModes.injectLatency(findItemRandomModes);
+
 		logger.info("START ItemsController --> findItemRandom");
 		List<Item> items = new ArrayList<Item>();
 		try{
@@ -154,6 +168,8 @@ public class ItemsController {
 	@RequestMapping("/findFeaturesItemRandom")
 	public List<Item> findFeaturesItemRandom() {
 		Experiment.injectLatency(tracer.getCurrentSpan(), findFeaturesItemRandomLatencyInjections);
+		SyntheticModes.injectLatency(findFeaturesItemRandomModes);
+		
 		logger.info("START ItemsController --> findFeaturesItemRandom");
 		List<Item> items = new ArrayList<Item>();
 		try{

@@ -28,6 +28,7 @@ import it.univaq.ing.web.services.WebCategoriesService;
 import it.univaq.ing.web.services.WebItemsService;
 import it.univaq.ing.web.services.WebProductsService;
 import it.univaq.ing.web.util.Experiment;
+import it.univaq.ing.web.util.SyntheticModes;
 
 /**
  * Home page controller.
@@ -41,6 +42,9 @@ public class HomeController {
 
 	@Value("#{'${experiment.home}'.split(',')}")
 	List<String> latencyInjections;
+
+	@Value("#{'${modes.home}'.split(',')}")
+	List<String> modes;
 
 	@Autowired
 	Tracer tracer;
@@ -72,6 +76,8 @@ public class HomeController {
 	public String home(Model model) {
 		this.addRequestClass();
 		Experiment.injectLatency(tracer.getCurrentSpan(), latencyInjections);
+		SyntheticModes.injectLatency(modes);
+
 		logger.info("START HomeController --> home");
 		
 		try{

@@ -24,3 +24,5 @@ logging:
     com.netflix.discovery.TimedSupervisorTask: OFF
 experiment:
   getCategory: 0,0,0,0,0,0,0,0,0,0
+modes:
+  getCategory: 0,0,0,0,0,0,0,0,0,0

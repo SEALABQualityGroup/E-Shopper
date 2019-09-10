@@ -16,6 +16,7 @@ import it.univaq.ing.categories.CategoryException;
 import it.univaq.ing.categories.domain.Category;
 import it.univaq.ing.categories.repository.CategoryRepository;
 import it.univaq.ing.categories.util.Experiment;
+import it.univaq.ing.categories.util.SyntheticModes;
 /**
  * 
  * @author LC
@@ -30,6 +31,10 @@ public class CategoriesController {
 	@Value("#{'${experiment.getCategory}'.split(',')}")
 	List<String> latencyInjections;
 
+	@Value("#{'${modes.getCategory}'.split(',')}")
+	List<String> syntheticModes;
+
+
 	protected CategoryRepository categoryRepository;
 
 	@Autowired
@@ -40,6 +45,8 @@ public class CategoriesController {
 	@RequestMapping("/category")
 	public List<Category> getCategory(){
 		Experiment.injectLatency(tracer.getCurrentSpan(), latencyInjections);
+		SyntheticModes.injectLatency(syntheticModes);
+		
 		logger.info("START CategoriesController --> getCategory");
 		List<Category> categories = new ArrayList<Category>();
 		try{
