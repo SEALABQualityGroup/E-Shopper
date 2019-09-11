@@ -2,10 +2,12 @@ package it.univaq.ing.web.services;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -33,7 +35,8 @@ public class WebCategoriesService {
 				: "http://user:password@" + serviceUrl;
 	}
 	
-	public List<Category> findAll(){
+	@Async
+	public CompletableFuture<List<Category>> findAll(){
 		logger.info("START WebCategoriesService --> findAll");	
 		Category[] categories = null;
 		try {
@@ -43,6 +46,7 @@ public class WebCategoriesService {
 			throw e;
 		}
 		logger.info("END WebCategoriesService --> findAll");		
-		return Arrays.asList(categories);
+		List<Category> results = Arrays.asList(categories);
+		return CompletableFuture.completedFuture(results);
 	}
 }

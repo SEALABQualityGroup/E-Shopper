@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -56,55 +58,56 @@ import it.univaq.ing.web.services.WebProductsService;
  * @author LC
  */
 @Controller
-@SessionAttributes(value={"accountName", "countCartItem"})
+@SessionAttributes(value = { "accountName", "countCartItem" })
 public class WebAccountsController {
 
 	@Autowired
 	protected WebAccountsService accountsService;
-	
+
 	@Autowired
 	protected WebSecurityService securityService;
 
 	@Autowired
 	protected WebLoginService loginService;
-	
+
 	@Autowired
 	protected WebCategoriesService categoriesService;
-	
+
 	@Autowired
 	protected WebProductsService productsService;
-	
+
 	@Autowired
 	protected WebItemsService itemsService;
-	
+
 	@Autowired
 	protected WebCartService cartService;
-	
+
 	@Inject
 	private ObjectMapper objectMapper;
-	
+
 	protected Logger logger = Logger.getLogger(WebAccountsController.class.getName());
 
 	public WebAccountsController(WebAccountsService accountsService) {
 		this.accountsService = accountsService;
 	}
-	
-	@RequestMapping(value="/logout", method=RequestMethod.GET)
-	public String doLogout(Account account, Model model) throws ServletException{	
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String doLogout(Account account, Model model) throws ServletException {
 		logger.info("START WebAccountsController --> doLogin");
-		
-		model.addAttribute("accountName", null );
+
+		model.addAttribute("accountName", null);
 		model.addAttribute("account", new Account());
 		return "redirect:/";
 	}
-	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String doLogin(Account account, Model model) throws ServletException{	
-		
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String doLogin(Account account, Model model) throws ServletException {
+
 		logger.info("START WebAccountsController --> doLogin");
-		try{
+		try {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if(auth.isAuthenticated() && SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserPrincipal) {
+			if (auth.isAuthenticated()
+					&& SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserPrincipal) {
 				Account accountSession = (Account) auth.getDetails();
 				Integer countCartItem = cartService.countCartItemByUsername(accountSession.getUsername());
 				model.addAttribute("countCartItem", countCartItem);
@@ -113,27 +116,28 @@ public class WebAccountsController {
 				model.addAttribute("path", "/login");
 				logger.info("END WebAccountsController --> doLogin");
 				return "redirect:/";
-			}else{
+			} else {
 				logger.info("END WebAccountsController --> doLogin");
 				return "redirect:/login";
 			}
-		}catch (RestClientException e) {
-			logger.info("ERROR WebAccountsController --> doLogin: "+e.getMessage());
+		} catch (RestClientException e) {
+			logger.info("ERROR WebAccountsController --> doLogin: " + e.getMessage());
 			return "login";
-		}	
+		}
 	}
-	
-	@RequestMapping(value="/contact", method=RequestMethod.GET)
-	public String contact(Model model) throws ServletException, MalformedURLException{	
+
+	@RequestMapping(value = "/contact", method = RequestMethod.GET)
+	public String contact(Model model)
+			throws ServletException, MalformedURLException, InterruptedException, ExecutionException {
 
 		logger.info("START WebAccountsController --> contact");
 		try{
-			List<Category> categories = categoriesService.findAll();
+			CompletableFuture<List<Category>> categories = categoriesService.findAll();
 			List<Product> products = productsService.findProductsRandom();
 			List<Item> items = itemsService.findItemsRandomByIdProduct(products.get(0).getProductId());
 			List<Item> itemsRecommended = itemsService.findItemsRandom();
 			
-			model.addAttribute("categories", categories);
+			model.addAttribute("categories", categories.get());
 			model.addAttribute("products", products);
 			model.addAttribute("items", items);
 			model.addAttribute("itemsRecommended", itemsRecommended);
@@ -187,7 +191,7 @@ public class WebAccountsController {
 	}
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String signup(Model model, @ModelAttribute("account") Account account, @RequestParam("pwdRepeat") String pwdRepeat) {
+	public String signup(Model model, @ModelAttribute("account") Account account, @RequestParam("pwdRepeat") String pwdRepeat) throws InterruptedException, ExecutionException {
 		logger.info("START WebAccountsController --> signup");
 		try{
 			String username = account.getEmail();
@@ -1253,16 +1257,16 @@ public class WebAccountsController {
 		model.addAttribute("noPaymentList",Boolean.FALSE);
 	}
 	
-	private void getHomeProduct(Model model){
+	private void getHomeProduct(Model model) throws InterruptedException, ExecutionException {
 		model.addAttribute("path", "/");
-		List<Category> categories = categoriesService.findAll();
+		CompletableFuture<List<Category>> categories = categoriesService.findAll();
 		model.addAttribute("categories", categories);
 		List<Product> products = productsService.findProductsRandom();
 		List<Item> items = itemsService.findItemsRandomByIdProduct(products.get(0).getProductId());
 		List<Item> itemsRecommended = itemsService.findItemsRandom();
 		List<Item> featuresItems = itemsService.findFeaturesItemRandom();
 		
-		model.addAttribute("categories", categories);
+		model.addAttribute("categories", categories.get());
 		model.addAttribute("products", products);
 		model.addAttribute("items", items);
 		model.addAttribute("itemsRecommended", itemsRecommended);

@@ -3,6 +3,8 @@ package it.univaq.ing.web.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +65,9 @@ public class HomeController {
 
 	protected Logger logger = Logger.getLogger(HomeController.class.getName());
 
-	protected static Random random = new Random(33);	
+	protected static Random random = new Random(33);
 
-	private void addRequestClass(){
+	private void addRequestClass() {
 		int requestClass = random.nextInt(latencyInjections.size());
 		Span span = tracer.getCurrentSpan();
 		span.setBaggageItem("experiment", Integer.toString(requestClass));
@@ -73,66 +75,57 @@ public class HomeController {
 	}
 
 	@RequestMapping("/")
-	public String home(Model model) {
+	public String home(Model model) throws InterruptedException, ExecutionException {
 		this.addRequestClass();
 		Experiment.injectLatency(tracer.getCurrentSpan(), latencyInjections);
 		SyntheticModes.injectLatency(modes);
 
 		logger.info("START HomeController --> home");
-		
-		try{
+
+		try {
 			this.getHomeProduct(model);
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if(auth.isAuthenticated() && SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserPrincipal) {
+			if (auth.isAuthenticated()
+					&& SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserPrincipal) {
 				Account accountSession = (Account) auth.getDetails();
 				Integer countCartItem = cartService.countCartItemByUsername(accountSession.getUsername());
 				model.addAttribute("countCartItem", countCartItem);
 				model.addAttribute("account", accountSession);
 				model.addAttribute("accountName", accountSession.getName());
-			}else{
+			} else {
 				Account account = new Account();
 				model.addAttribute("account", account);
 				model.addAttribute("noAccount", Boolean.FALSE);
 			}
-		}catch(RestClientException e){
-			logger.info("ERROR HomeController --> home: "+ e.getMessage());
+		} catch (RestClientException e) {
+			logger.info("ERROR HomeController --> home: " + e.getMessage());
 			return "404";
 		}
 		logger.info("END HomeController --> home");
 		return "index";
 	}
-	
+
 	@RequestMapping("/findItemsRandomByProductId/{idProduct}")
-	public String findItemsRandomByProductId(@PathVariable(value="idProduct") Long idProduct, Model model) {
-		
+	public String findItemsRandomByProductId(@PathVariable(value = "idProduct") Long idProduct, Model model) {
+
 		logger.info("START HomeController --> findItemsRandomByProductId");
-		try{
+		try {
 			model.addAttribute("path", "/");
 			List<Item> items = itemsService.findItemsRandomByIdProduct(idProduct);
 			model.addAttribute("items", items);
 			model.addAttribute("idProduct", idProduct);
-		}catch(RestClientException e){
-			logger.info("ERROR HomeController --> findItemsRandomByProductId: "+ e.getMessage());
+		} catch (RestClientException e) {
+			logger.info("ERROR HomeController --> findItemsRandomByProductId: " + e.getMessage());
 			return "404";
 		}
 		logger.info("END HomeController --> findItemsRandomByProductId");
 		return "index";
 	}
 
-	private void getHomeProduct(Model model){
+	private void getHomeProduct(Model model) throws InterruptedException, ExecutionException {
 		model.addAttribute("path", "/");
-		List<Category> categories = categoriesService.findAll();
+		CompletableFuture<List<Category>> futureCategories = categoriesService.findAll();
 		List<Product> productLsit = productsService.findAll();
-		for(Category category: categories){
-			List<Product> listProduct = new ArrayList<Product>();
-			for(Product product : productLsit){
-				if(category.getCategoryId().equals(product.getCategoryId())){
-					listProduct.add(product);
-				}
-			}
-			category.setListProduct(listProduct);
-		}
-		model.addAttribute("categories", categories);
 		List<Product> products = productsService.findProductsRandom();
 		for(Product product : products){
 			List<Item> items = itemsService.findItemsRandomByIdProduct(product.getProductId());
@@ -145,6 +138,18 @@ public class HomeController {
 		if(accountName == null){
 			model.addAttribute("accountName", "");
 		}
+
+		List<Category> categories = futureCategories.get();
+		for(Category category: categories){
+			List<Product> listProduct = new ArrayList<Product>();
+			for(Product product : productLsit){
+				if(category.getCategoryId().equals(product.getCategoryId())){
+					listProduct.add(product);
+				}
+			}
+			category.setListProduct(listProduct);
+		}
+
 		model.addAttribute("idProduct", products.get(0).getProductId());
 		model.addAttribute("categories", categories);
 		model.addAttribute("products", products);

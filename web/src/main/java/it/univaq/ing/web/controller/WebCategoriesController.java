@@ -1,6 +1,8 @@
 package it.univaq.ing.web.controller;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,28 +23,28 @@ import it.univaq.ing.web.services.WebProductsService;
  *
  */
 @Controller
-@SessionAttributes(value={"accountName"})
+@SessionAttributes(value = { "accountName" })
 public class WebCategoriesController {
 
 	@Autowired
 	protected WebCategoriesService categoriesService;
-	
+
 	@Autowired
 	protected WebProductsService productsService;
-	
+
 	protected Logger logger = Logger.getLogger(WebLoginService.class.getName());
 
 	public WebCategoriesController(WebCategoriesService categoriesService) {
 		this.categoriesService = categoriesService;
 	}
-	
+
 	@RequestMapping(value = "/category")
-	public String getCategory(Model model) {
+	public String getCategory(Model model) throws InterruptedException, ExecutionException {
 		
 		logger.info("START WebCategoriesController --> getCategory");
 		try{
-			List<Category> categories = categoriesService.findAll();
-			model.addAttribute("categories", categories);
+			CompletableFuture<List<Category>> categories = categoriesService.findAll();
+			model.addAttribute("categories", categories.get());
 			logger.info("END WebCategoriesController --> getCategory");
 			return "category";
 		}catch(RestClientException e){

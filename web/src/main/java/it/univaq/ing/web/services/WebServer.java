@@ -12,6 +12,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 
 import it.univaq.ing.security.CustomCredentialProvider;
@@ -36,6 +37,7 @@ import it.univaq.ing.web.controller.WebWishListController;
 // Disable component scanner ...
 @ComponentScan(basePackages={"it.univaq.ing.web.security","it.univaq.ing.security"})
 @EnableAutoConfiguration
+@EnableAsync
 public class WebServer {
 
 	/**
