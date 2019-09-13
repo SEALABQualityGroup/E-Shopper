@@ -107,7 +107,7 @@ public class ProductsController {
 		logger.info("START ProductsController --> findProductRandom");
 		List<Product> products = new ArrayList<Product>();
 		try{
-			products = productRepository.findProductsRandom().subList(2, random.nextInt(6));
+			products = productRepository.findProductsRandom().subList(0, random.nextInt(4)+2);
 		}catch(DataAccessException e){
 			logger.info("ERROR  ProductsController --> findProductRandom: "+ e.getMessage());
 			throw new ProductException("find random product error", HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
