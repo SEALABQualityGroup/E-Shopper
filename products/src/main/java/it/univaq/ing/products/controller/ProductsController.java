@@ -44,7 +44,8 @@ public class ProductsController {
 	List<String> findProductRandomModes;
 
 	protected ProductRepository productRepository;
-	protected Random randomGenerator = new Random();
+
+	protected Random random = new Random();
 
 	@Autowired
 	public ProductsController(ProductRepository productRepository) {
@@ -106,7 +107,7 @@ public class ProductsController {
 		logger.info("START ProductsController --> findProductRandom");
 		List<Product> products = new ArrayList<Product>();
 		try{
-			products = productRepository.findProductsRandom();
+			products = productRepository.findProductsRandom().subList(2, random.nextInt(6));
 		}catch(DataAccessException e){
 			logger.info("ERROR  ProductsController --> findProductRandom: "+ e.getMessage());
 			throw new ProductException("find random product error", HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
