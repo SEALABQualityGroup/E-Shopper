@@ -5,9 +5,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -151,7 +153,8 @@ public class WebItemsService {
 		return Arrays.asList(items);
 	}
 	
-	public List<Item> findFeaturesItemRandom() {
+	@Async
+	public CompletableFuture<List<Item>> findFeaturesItemRandom() {
 		
 		logger.info("START WebItemsService --> findFeaturesItemRandom");
 		Item[] items = null;
@@ -161,8 +164,8 @@ public class WebItemsService {
 			logger.info("ERROR WebItemsService --> findFeaturesItemRandom: "+e.getMessage());
 			throw e;
 		}
-		logger.info("START WebItemsService --> findFeaturesItemRandom");
-		return Arrays.asList(items);
+		List<Item> results = Arrays.asList(items);
+		return CompletableFuture.completedFuture(results);
 	}
 	
 	public Item updateItem(Item item){

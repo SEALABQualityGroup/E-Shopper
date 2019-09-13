@@ -127,7 +127,7 @@ public class HomeController {
 		CompletableFuture<List<Category>> futureCategories = categoriesService.findAll();
 		List<Product> productLsit = productsService.findAll();
 		List<Item> itemsRecommended = itemsService.findItemsRandom();
-		List<Item> featuresItems = itemsService.findFeaturesItemRandom();
+		CompletableFuture<List<Item>> futureFeaturesItems = itemsService.findFeaturesItemRandom();
 		List<Category> categories = futureCategories.get();
 		for(Category category: categories){
 			List<Product> listProduct = new ArrayList<Product>();
@@ -154,7 +154,7 @@ public class HomeController {
 		model.addAttribute("products", products);
 		model.addAttribute("items", products.get(0).getListItem());
 		model.addAttribute("itemsRecommended", itemsRecommended);
-		model.addAttribute("featuresItems", featuresItems);
+		model.addAttribute("featuresItems", futureFeaturesItems.get());
 
 	}
 }
