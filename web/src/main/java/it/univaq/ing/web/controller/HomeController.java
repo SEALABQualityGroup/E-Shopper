@@ -126,19 +126,8 @@ public class HomeController {
 		model.addAttribute("path", "/");
 		CompletableFuture<List<Category>> futureCategories = categoriesService.findAll();
 		List<Product> productLsit = productsService.findAll();
-		List<Product> products = productsService.findProductsRandom();
-		for(Product product : products){
-			List<Item> items = itemsService.findItemsRandomByIdProduct(product.getProductId());
-			product.setListItem(items);
-		}		
 		List<Item> itemsRecommended = itemsService.findItemsRandom();
 		List<Item> featuresItems = itemsService.findFeaturesItemRandom();
-		String accountName =  (String) model.asMap().get("accountName");
-
-		if(accountName == null){
-			model.addAttribute("accountName", "");
-		}
-
 		List<Category> categories = futureCategories.get();
 		for(Category category: categories){
 			List<Product> listProduct = new ArrayList<Product>();
@@ -149,7 +138,17 @@ public class HomeController {
 			}
 			category.setListProduct(listProduct);
 		}
+		model.addAttribute("categories", categories);
+		List<Product> products = productsService.findProductsRandom();
+		for(Product product : products){
+			List<Item> items = itemsService.findItemsRandomByIdProduct(product.getProductId());
+			product.setListItem(items);
+		}		
+		String accountName =  (String) model.asMap().get("accountName");
 
+		if(accountName == null){
+			model.addAttribute("accountName", "");
+		}
 		model.addAttribute("idProduct", products.get(0).getProductId());
 		model.addAttribute("categories", categories);
 		model.addAttribute("products", products);
