@@ -125,6 +125,7 @@ public class HomeController {
 	private void getHomeProduct(Model model) throws InterruptedException, ExecutionException {
 		model.addAttribute("path", "/");
 		CompletableFuture<List<Category>> futureCategories = categoriesService.findAll();
+		CompletableFuture<List<Item>> futureFeaturesItems = itemsService.findFeaturesItemRandom();
 		List<Product> productLsit = productsService.findAll();
 		List<Item> itemsRecommended = itemsService.findItemsRandom();
 		List<Category> categories = futureCategories.get();
@@ -138,7 +139,6 @@ public class HomeController {
 			category.setListProduct(listProduct);
 		}
 		model.addAttribute("categories", categories);
-		CompletableFuture<List<Item>> futureFeaturesItems = itemsService.findFeaturesItemRandom();
 		List<Product> products = productsService.findProductsRandom();
 		for(Product product : products){
 			List<Item> items = itemsService.findItemsRandomByIdProduct(product.getProductId());

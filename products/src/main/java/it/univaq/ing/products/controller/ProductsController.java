@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +43,9 @@ public class ProductsController {
 
 	@Value("#{'${modes.findProductRandom}'.split(',')}")
 	List<String> findProductRandomModes;
+
+	@Value("#{'${size.findProductRandom}'.split(',')}")
+	List<String> findProductRandomSize;
 
 	protected ProductRepository productRepository;
 
@@ -101,13 +105,19 @@ public class ProductsController {
 	
 	@RequestMapping("/findProductsRandom")
 	public List<Product> findProductRandom() {
+		Span span = tracer.getCurrentSpan();
 		Experiment.injectLatency(tracer.getCurrentSpan(),  findProductRandomLatencyInjections);
 		SyntheticModes.injectLatency(findProductRandomModes);
 
 		logger.info("START ProductsController --> findProductRandom");
 		List<Product> products = new ArrayList<Product>();
 		try{
-			products = productRepository.findProductsRandom().subList(0, random.nextInt(4)+2);
+			String experiment = span.getBaggageItem("experiment");
+			if (experiment != null){
+				int requestClass = Integer.valueOf(experiment);
+				int size = Integer.valueOf(findProductRandomSize.get(requestClass));
+				products = productRepository.findProductsRandom().subList(0, size);
+			}
 		}catch(DataAccessException e){
 			logger.info("ERROR  ProductsController --> findProductRandom: "+ e.getMessage());
 			throw new ProductException("find random product error", HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
