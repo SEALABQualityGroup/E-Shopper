@@ -7,7 +7,7 @@ import random
 import ruamel.yaml
 import sys
 
-num_patterns =int(sys.argv[1])
+num_patterns =random.randint(2, 4)
 num_req_classes = 10
 subops = [('categories-server', 'getCategory'),
           ('items-server', 'findItemsRandomByIdProduct'),
@@ -20,11 +20,11 @@ num_sub_ops = len(subops)
 
 def createPattern(num_sub_ops):
     bag = set()
-    k = random.choice(range(1,5))
+    k = random.randint(1, 3)
     while len(bag) < k:
         bag.add(random.choice(range(num_sub_ops)))
 
-    return [random.choice([50, 100,150])
+    return [random.randrange(50, 101, 10)
             if i in bag
             else 0
             for i in range(num_sub_ops)]
