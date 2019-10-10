@@ -24,7 +24,7 @@ def createPattern(num_sub_ops):
     while len(bag) < k:
         bag.add(random.choice(range(num_sub_ops)))
 
-    return [random.randrange(50, 101, 10)
+    return [random.randrange(50, 101, 25)
             if i in bag
             else 0
             for i in range(num_sub_ops)]
