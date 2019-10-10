@@ -7,7 +7,7 @@ import random
 import ruamel.yaml
 import sys
 
-num_patterns =random.randint(2, 4)
+num_patterns =int(sys.argv[1])
 num_req_classes = 10
 subops = [('categories-server', 'getCategory'),
           ('items-server', 'findItemsRandomByIdProduct'),
