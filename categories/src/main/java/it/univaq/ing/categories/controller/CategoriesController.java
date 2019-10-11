@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ import it.univaq.ing.categories.CategoryException;
 import it.univaq.ing.categories.domain.Category;
 import it.univaq.ing.categories.repository.CategoryRepository;
 import it.univaq.ing.categories.util.Experiment;
-import it.univaq.ing.categories.util.SyntheticModes;
+import it.univaq.ing.categories.util.SyntheticNoise;
 /**
  * 
  * @author LC
@@ -31,8 +32,8 @@ public class CategoriesController {
 	@Value("#{'${experiment.getCategory}'.split(',')}")
 	List<String> latencyInjections;
 
-	@Value("#{'${modes.getCategory}'.split(',')}")
-	List<String> syntheticModes;
+	@Value("#{'${noise.getCategory}'.split(',')}")
+	List<String> syntheticNoise;
 
 
 	protected CategoryRepository categoryRepository;
@@ -44,8 +45,9 @@ public class CategoriesController {
 	
 	@RequestMapping("/category")
 	public List<Category> getCategory(){
-		Experiment.injectLatency(tracer.getCurrentSpan(), latencyInjections);
-		SyntheticModes.injectLatency(syntheticModes);
+		Span span = tracer.getCurrentSpan();
+		Experiment.injectLatency(span, latencyInjections);
+		SyntheticNoise.injectLatency(span, syntheticNoise);
 		
 		logger.info("START CategoriesController --> getCategory");
 		List<Category> categories = new ArrayList<Category>();
