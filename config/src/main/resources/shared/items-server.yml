@@ -28,4 +28,4 @@ experiment:
   findItemRandom: 0,0,0,0,0,0,0,0,0,0
   findFeaturesItemRandom: 0,0,0,0,0,0,0,0,0,0
 noise:
-  findFeaturesItemRandom: 50,0,0,0,0,0,0,0,0,0
+  findFeaturesItemRandom: 0,0,0,0,0,0,0,0,0,0
