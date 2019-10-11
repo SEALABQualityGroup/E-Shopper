@@ -19,7 +19,6 @@ import it.univaq.ing.products.ProductException;
 import it.univaq.ing.products.domain.Product;
 import it.univaq.ing.products.repository.ProductRepository;
 import it.univaq.ing.products.util.Experiment;
-import it.univaq.ing.products.util.SyntheticModes;
 
 /**
  * 
@@ -37,12 +36,6 @@ public class ProductsController {
 
 	@Value("#{'${experiment.findProductRandom}'.split(',')}")
 	List<String> findProductRandomLatencyInjections;
-
-	@Value("#{'${modes.findProduct}'.split(',')}")
-	List<String> findProductModes;
-
-	@Value("#{'${modes.findProductRandom}'.split(',')}")
-	List<String> findProductRandomModes;
 
 	@Value("#{'${size.findProductRandom}'.split(',')}")
 	List<String> findProductRandomSize;
@@ -89,7 +82,6 @@ public class ProductsController {
 	@RequestMapping("/findProduct")
 	public List<Product> findProduct() {
 		Experiment.injectLatency(tracer.getCurrentSpan(), findProductLatencyInjections);
-		SyntheticModes.injectLatency(findProductModes);
 
 		logger.info("START ProductsController --> findProduct");
 		List<Product> products = new ArrayList<Product>();
@@ -107,7 +99,6 @@ public class ProductsController {
 	public List<Product> findProductRandom() {
 		Span span = tracer.getCurrentSpan();
 		Experiment.injectLatency(tracer.getCurrentSpan(),  findProductRandomLatencyInjections);
-		SyntheticModes.injectLatency(findProductRandomModes);
 
 		logger.info("START ProductsController --> findProductRandom");
 		List<Product> products = new ArrayList<Product>();

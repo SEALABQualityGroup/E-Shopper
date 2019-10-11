@@ -29,6 +29,5 @@ experiment:
   findProduct: 0,0,0,0,0,0,0,0,0,0
   findProductRandom: 0,0,0,0,0,0,0,0,0,0
 
-modes:
-  findProduct: 0,0,0,0,0,0,0,0,0,0
-  findProductRandom: 0,0,0,0,0,0,0,0,0,0
+size:
+  findProductRandom: 1,1,1,1,1,1,1,1,1,1
