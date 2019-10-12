@@ -77,9 +77,6 @@ public class HomeController {
 	@RequestMapping("/")
 	public String home(Model model) throws InterruptedException, ExecutionException {
 		this.addRequestClass();
-		Span span = tracer.getCurrentSpan();
-		Experiment.injectLatency(span, latencyInjections);
-		SyntheticNoise.injectLatency(span, noiseInjections);
 
 		logger.info("START HomeController --> home");
 
@@ -129,6 +126,11 @@ public class HomeController {
 		CompletableFuture<List<Item>> futureFeaturesItems = itemsService.findFeaturesItemRandom();
 		List<Product> productLsit = productsService.findAll();
 		List<Item> itemsRecommended = itemsService.findItemsRandom();
+
+		Span span = tracer.getCurrentSpan();
+		Experiment.injectLatency(span, latencyInjections);
+		SyntheticNoise.injectLatency(span, noiseInjections);
+
 		List<Category> categories = futureCategories.get();
 		for(Category category: categories){
 			List<Product> listProduct = new ArrayList<Product>();
