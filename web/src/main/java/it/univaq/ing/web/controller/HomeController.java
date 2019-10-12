@@ -30,6 +30,7 @@ import it.univaq.ing.web.services.WebCategoriesService;
 import it.univaq.ing.web.services.WebItemsService;
 import it.univaq.ing.web.services.WebProductsService;
 import it.univaq.ing.web.util.Experiment;
+import it.univaq.ing.web.util.SyntheticNoise;
 
 /**
  * Home page controller.
@@ -43,6 +44,9 @@ public class HomeController {
 
 	@Value("#{'${experiment.home}'.split(',')}")
 	List<String> latencyInjections;
+
+	@Value("#{'${noise.home}'.split(',')}")
+	List<String> noiseInjections;
 
 	@Autowired
 	Tracer tracer;
@@ -73,7 +77,9 @@ public class HomeController {
 	@RequestMapping("/")
 	public String home(Model model) throws InterruptedException, ExecutionException {
 		this.addRequestClass();
-		Experiment.injectLatency(tracer.getCurrentSpan(), latencyInjections);
+		Span span = tracer.getCurrentSpan();
+		Experiment.injectLatency(span, latencyInjections);
+		SyntheticNoise.injectLatency(span, noiseInjections);
 
 		logger.info("START HomeController --> home");
 

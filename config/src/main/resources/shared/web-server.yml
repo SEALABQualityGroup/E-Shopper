@@ -43,3 +43,5 @@ logging:
 
 experiment:
   home: 0,0,0,0,0,0,0,0,0,0
+noise:
+  home: 0,0,0,0,0,0,0,0,0,0
