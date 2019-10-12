@@ -24,9 +24,9 @@ logging:
     com.netflix.discovery.TimedSupervisorTask: OFF
 
 experiment:
-  findItemsRandomByIdProduct: 0,0,0,0,0,0,0,0,0,0
-  findItemRandom: 0,0,0,0,0,0,0,0,0,0
-  findFeaturesItemRandom: 0,0,0,0,0,0,0,0,0,0
+  findItemsRandomByIdProduct: 0,0,0,0,0,0,0,0,0,0 
+  findItemRandom: 0,0,0,0,0,0,0,0,0,0 # Async
+  findFeaturesItemRandom: 0,0,0,0,0,0,0,0,0,0 # Async
 noise:
   findItemsRandomByIdProduct: 0,0,0,0,0,0,0,0,0,0
   findItemRandom: 0,0,0,0,0,0,0,0,0,0
