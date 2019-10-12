@@ -43,8 +43,8 @@ public class WebCategoriesController {
 		
 		logger.info("START WebCategoriesController --> getCategory");
 		try{
-			CompletableFuture<List<Category>> categories = categoriesService.findAll();
-			model.addAttribute("categories", categories.get());
+			List<Category> categories = categoriesService.findAll();
+			model.addAttribute("categories", categories);
 			logger.info("END WebCategoriesController --> getCategory");
 			return "category";
 		}catch(RestClientException e){

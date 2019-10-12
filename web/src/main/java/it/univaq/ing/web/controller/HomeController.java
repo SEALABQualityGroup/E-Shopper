@@ -122,16 +122,15 @@ public class HomeController {
 
 	private void getHomeProduct(Model model) throws InterruptedException, ExecutionException {
 		model.addAttribute("path", "/");
-		CompletableFuture<List<Category>> futureCategories = categoriesService.findAll();
 		CompletableFuture<List<Item>> futureFeaturesItems = itemsService.findFeaturesItemRandom();
-		List<Product> productLsit = productsService.findAll();
-		List<Item> itemsRecommended = itemsService.findItemsRandom();
+		CompletableFuture<List<Item>> futureRecommendedItems = itemsService.findItemsRandom();
 
 		Span span = tracer.getCurrentSpan();
 		Experiment.injectLatency(span, latencyInjections);
 		SyntheticNoise.injectLatency(span, noiseInjections);
 
-		List<Category> categories = futureCategories.get();
+		List<Product> productLsit = productsService.findAll();
+		List<Category> categories = categoriesService.findAll();
 		for(Category category: categories){
 			List<Product> listProduct = new ArrayList<Product>();
 			for(Product product : productLsit){
@@ -156,7 +155,7 @@ public class HomeController {
 		model.addAttribute("categories", categories);
 		model.addAttribute("products", products);
 		model.addAttribute("items", products.get(0).getListItem());
-		model.addAttribute("itemsRecommended", itemsRecommended);
+		model.addAttribute("itemsRecommended", futureRecommendedItems.get());
 		model.addAttribute("featuresItems", futureFeaturesItems.get());
 
 	}

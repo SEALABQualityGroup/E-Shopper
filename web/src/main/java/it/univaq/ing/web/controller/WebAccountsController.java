@@ -132,15 +132,15 @@ public class WebAccountsController {
 
 		logger.info("START WebAccountsController --> contact");
 		try{
-			CompletableFuture<List<Category>> categories = categoriesService.findAll();
+			List<Category> categories = categoriesService.findAll();
 			List<Product> products = productsService.findProductsRandom();
 			List<Item> items = itemsService.findItemsRandomByIdProduct(products.get(0).getProductId());
-			List<Item> itemsRecommended = itemsService.findItemsRandom();
+			CompletableFuture<List<Item>> itemsRecommended = itemsService.findItemsRandom();
 			
-			model.addAttribute("categories", categories.get());
+			model.addAttribute("categories", categories);
 			model.addAttribute("products", products);
 			model.addAttribute("items", items);
-			model.addAttribute("itemsRecommended", itemsRecommended);
+			model.addAttribute("itemsRecommended", itemsRecommended.get());
 			model.addAttribute("path", "/contact");
 
 		}catch (RestClientException e) {
@@ -1259,17 +1259,17 @@ public class WebAccountsController {
 	
 	private void getHomeProduct(Model model) throws InterruptedException, ExecutionException {
 		model.addAttribute("path", "/");
-		CompletableFuture<List<Category>> categories = categoriesService.findAll();
+		List<Category> categories = categoriesService.findAll();
 		model.addAttribute("categories", categories);
 		List<Product> products = productsService.findProductsRandom();
 		List<Item> items = itemsService.findItemsRandomByIdProduct(products.get(0).getProductId());
-		List<Item> itemsRecommended = itemsService.findItemsRandom();
+		CompletableFuture<List<Item>> itemsRecommended = itemsService.findItemsRandom();
 		List<Item> featuresItems = itemsService.findFeaturesItemRandom().get();
 		
-		model.addAttribute("categories", categories.get());
+		model.addAttribute("categories", categories);
 		model.addAttribute("products", products);
 		model.addAttribute("items", items);
-		model.addAttribute("itemsRecommended", itemsRecommended);
+		model.addAttribute("itemsRecommended", itemsRecommended.get());
 		model.addAttribute("featuresItems", featuresItems);
 	}
 	

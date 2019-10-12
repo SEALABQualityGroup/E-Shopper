@@ -139,7 +139,8 @@ public class WebItemsService {
 		return Arrays.asList(items);
 	}
 	
-	public List<Item> findItemsRandom() {
+	@Async
+	public CompletableFuture<List<Item>> findItemsRandom() {
 		
 		logger.info("START WebItemsService --> findItemsRandom");
 		Item[] items = null;
@@ -150,7 +151,8 @@ public class WebItemsService {
 			throw e;
 		}
 		logger.info("END WebItemsService --> findItemsRandom");
-		return Arrays.asList(items);
+		List<Item> results = Arrays.asList(items);
+		return CompletableFuture.completedFuture(results);
 	}
 	
 	@Async
