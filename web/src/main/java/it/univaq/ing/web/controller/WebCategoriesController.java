@@ -1,7 +1,6 @@
 package it.univaq.ing.web.controller;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
