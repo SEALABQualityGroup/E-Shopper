@@ -19,6 +19,7 @@ import it.univaq.ing.products.ProductException;
 import it.univaq.ing.products.domain.Product;
 import it.univaq.ing.products.repository.ProductRepository;
 import it.univaq.ing.products.util.Experiment;
+import it.univaq.ing.products.util.SyntheticNoise;
 
 /**
  * 
@@ -36,6 +37,9 @@ public class ProductsController {
 
 	@Value("#{'${experiment.findProductRandom}'.split(',')}")
 	List<String> findProductRandomLatencyInjections;
+
+	@Value("#{'${noise.findProduct}'.split(',')}")
+	List<String> syntheticNoise;
 
 	@Value("#{'${size.findProductRandom}'.split(',')}")
 	List<String> findProductRandomSize;
@@ -81,7 +85,9 @@ public class ProductsController {
 	
 	@RequestMapping("/findProduct")
 	public List<Product> findProduct() {
-		Experiment.injectLatency(tracer.getCurrentSpan(), findProductLatencyInjections);
+		Span span = tracer.getCurrentSpan();
+		Experiment.injectLatency(span, findProductLatencyInjections);
+		SyntheticNoise.injectLatency(span, syntheticNoise);
 
 		logger.info("START ProductsController --> findProduct");
 		List<Product> products = new ArrayList<Product>();
