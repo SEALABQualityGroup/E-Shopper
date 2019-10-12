@@ -39,8 +39,14 @@ public class ItemsController {
 	@Value("#{'${experiment.findFeaturesItemRandom}'.split(',')}")
 	List<String> findFeaturesItemRandomLatencyInjections;
 
+	@Value("#{'${noise.findItemsRandomByIdProduct}'.split(',')}")
+	List<String> noiseFindItemsRandomByIdProduct;
+
+	@Value("#{'${noise.findItemRandom}'.split(',')}")
+	List<String> noiseFindItemRandom;
+
 	@Value("#{'${noise.findFeaturesItemRandom}'.split(',')}")
-	List<String> findFeaturesItemRandomNoise;
+	List<String> noiseFindFeaturesItemRandom;
 
 	
 	protected Logger logger = Logger.getLogger(ItemsController.class.getName());
@@ -84,7 +90,10 @@ public class ItemsController {
 	
 	@RequestMapping("/findItemsRandomByProductId/{idProduct}")
 	public List<Item> findItemsRandomByIdProduct(@PathVariable(value="idProduct") Long idProduct) {
-		Experiment.injectLatency(tracer.getCurrentSpan(), findItemsRandomByIdProductLatencyInjections);
+		Span span = tracer.getCurrentSpan();
+		Experiment.injectLatency(span, findItemsRandomByIdProductLatencyInjections);
+		SyntheticNoise.injectLatency(span, noiseFindItemsRandomByIdProduct);
+
 		logger.info("START ItemsController --> findItemsRandomByIdProduct");
 		List<Item> items = new ArrayList<Item>();
 		try{
@@ -144,7 +153,9 @@ public class ItemsController {
 	
 	@RequestMapping("/findItemsRandom")
 	public List<Item> findItemRandom() {
-		Experiment.injectLatency(tracer.getCurrentSpan(), findItemRandomLatencyInjections);
+		Span span = tracer.getCurrentSpan();
+		Experiment.injectLatency(span, findItemRandomLatencyInjections);
+		SyntheticNoise.injectLatency(span, noiseFindItemRandom);
 
 		logger.info("START ItemsController --> findItemRandom");
 		List<Item> items = new ArrayList<Item>();
@@ -162,7 +173,7 @@ public class ItemsController {
 	public List<Item> findFeaturesItemRandom() {
 		Span span = tracer.getCurrentSpan();
 		Experiment.injectLatency(span, findFeaturesItemRandomLatencyInjections);
-		SyntheticNoise.injectLatency(span, findFeaturesItemRandomNoise);
+		SyntheticNoise.injectLatency(span, noiseFindFeaturesItemRandom);
 		
 		logger.info("START ItemsController --> findFeaturesItemRandom");
 		List<Item> items = new ArrayList<Item>();
