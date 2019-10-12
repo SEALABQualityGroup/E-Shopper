@@ -39,7 +39,10 @@ public class ProductsController {
 	List<String> findProductRandomLatencyInjections;
 
 	@Value("#{'${noise.findProduct}'.split(',')}")
-	List<String> syntheticNoise;
+	List<String> noiseFindProduct;
+
+	@Value("#{'${noise.findProductRandom}'.split(',')}")
+	List<String> noiseFindProductRandom;
 
 	@Value("#{'${size.findProductRandom}'.split(',')}")
 	List<String> findProductRandomSize;
@@ -87,7 +90,7 @@ public class ProductsController {
 	public List<Product> findProduct() {
 		Span span = tracer.getCurrentSpan();
 		Experiment.injectLatency(span, findProductLatencyInjections);
-		SyntheticNoise.injectLatency(span, syntheticNoise);
+		SyntheticNoise.injectLatency(span, noiseFindProduct);
 
 		logger.info("START ProductsController --> findProduct");
 		List<Product> products = new ArrayList<Product>();
@@ -104,7 +107,8 @@ public class ProductsController {
 	@RequestMapping("/findProductsRandom")
 	public List<Product> findProductRandom() {
 		Span span = tracer.getCurrentSpan();
-		Experiment.injectLatency(tracer.getCurrentSpan(),  findProductRandomLatencyInjections);
+		Experiment.injectLatency(span,  findProductRandomLatencyInjections);
+		SyntheticNoise.injectLatency(span, noiseFindProductRandom);
 
 		logger.info("START ProductsController --> findProductRandom");
 		List<Product> products = new ArrayList<Product>();
