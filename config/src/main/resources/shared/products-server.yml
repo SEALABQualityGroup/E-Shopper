@@ -26,11 +26,11 @@ logging:
     com.netflix.discovery.TimedSupervisorTask: OFF
 
 experiment:
-  findProduct: 50,50,0,0,0,0,0,0,0,0
+  findProduct: 0,0,0,0,0,0,0,0,0,0
   findProductRandom: 0,0,0,0,0,0,0,0,0,0
 
 noise:
-  findProduct: 10,10,0,0,0,0,0,0,0,0
+  findProduct: 0,0,0,0,0,0,0,0,0,0
   findProductRandom: 0,0,0,0,0,0,0,0,0,0
 
 size:

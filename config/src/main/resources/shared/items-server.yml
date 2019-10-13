@@ -29,5 +29,5 @@ experiment:
   findFeaturesItemRandom: 0,0,0,0,0,0,0,0,0,0 # Async
 noise:
   findItemsRandomByIdProduct: 0,0,0,0,0,0,0,0,0,0
-  findItemRandom: 50,50,0,0,0,0,0,0,0,0
-  findFeaturesItemRandom: 50,50,0,0,0,0,0,0,0,0
+  findItemRandom: 0,0,0,0,0,0,0,0,0,0
+  findFeaturesItemRandom: 0,0,0,0,0,0,0,0,0,0
