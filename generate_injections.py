@@ -55,12 +55,12 @@ for li, sni, so in zip(latencyInjections, syncNoiseInjections,  sync_rpcs):
     doc = open(cfgFile ,mode='w')
     ruamel.yaml.dump(ymlDict, doc, Dumper=RoundTripDumper)
 
-for so in async_rpcs:
-    cfgFile= './config/src/main/resources/shared/' + so[0] + '.yml'
-    method=so[1]
-    doc = open(cfgFile ,mode='r')
-    ymlDict = ruamel.yaml.load(doc, Loader=RoundTripLoader)
-    doc.close()
-    ymlDict['noise'][method] = ','.join(['50' for _ in range(num_patterns)] + ['0' for _ in range(num_req_classes - num_patterns)])
-    doc = open(cfgFile ,mode='w')
-    ruamel.yaml.dump(ymlDict, doc, Dumper=RoundTripDumper)
+so = random.choice(async_rpcs)
+cfgFile= './config/src/main/resources/shared/' + so[0] + '.yml'
+method=so[1]
+doc = open(cfgFile ,mode='r')
+ymlDict = ruamel.yaml.load(doc, Loader=RoundTripLoader)
+doc.close()
+ymlDict['noise'][method] = ','.join(['100' for _ in range(num_patterns)] + ['0' for _ in range(num_req_classes - num_patterns)])
+doc = open(cfgFile ,mode='w')
+ruamel.yaml.dump(ymlDict, doc, Dumper=RoundTripDumper)
