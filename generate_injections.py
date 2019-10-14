@@ -34,8 +34,15 @@ def createSyncNoise(pattern):
     noise[index] = 10
     return noise
 
+patterns = []
+str_pats = set()
+while len(patterns) < num_patterns:
+    pattern = createPattern(num_sub_ops)
+    str_pat = ''.join([str(x) for x in pattern])
+    if not str_pat in str_pats:
+        patterns.append(pattern)
+        str_pats.add(str_pat)
 
-patterns = np.array([createPattern(num_sub_ops) for _ in range(num_patterns)])
 syncNoise = np.array([createSyncNoise(p) for p in patterns])
 
 zeros = np.zeros((num_req_classes - num_patterns ,num_sub_ops), dtype=np.int)
