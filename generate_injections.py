@@ -64,3 +64,13 @@ doc.close()
 ymlDict['noise'][method] = ','.join(['100' for _ in range(num_patterns)] + ['0' for _ in range(num_req_classes - num_patterns)])
 doc = open(cfgFile ,mode='w')
 ruamel.yaml.dump(ymlDict, doc, Dumper=RoundTripDumper)
+
+for so in [x for x in async_rpcs if x!=so]:
+    cfgFile= './config/src/main/resources/shared/' + so[0] + '.yml'
+    method=so[1]
+    doc = open(cfgFile ,mode='r')
+    ymlDict = ruamel.yaml.load(doc, Loader=RoundTripLoader)
+    doc.close()
+    ymlDict['noise'][method] = ','.join(['0' for _ in range(num_req_classes)])
+    doc = open(cfgFile ,mode='w')
+    ruamel.yaml.dump(ymlDict, doc, Dumper=RoundTripDumper)
