@@ -26,7 +26,7 @@ def createPattern(num_sub_ops):
     for _ in  range(k):
         bag.add(random.choice(range(num_sub_ops)))
 
-    return [50 if i in bag else 0 for i in range(num_sub_ops)]
+    return [random.choice([50, 60, 70]) if i in bag else 0 for i in range(num_sub_ops)]
 
 def createSyncNoise(pattern):
     noise = np.zeros(len(pattern), dtype=np.int)
