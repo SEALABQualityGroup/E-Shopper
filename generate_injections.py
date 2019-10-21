@@ -20,23 +20,20 @@ async_rpcs = [('items-server', 'findItemRandom'),
 
 num_sub_ops = len(sync_rpcs)
 
-def createPattern(num_sub_ops):
+def createPattern(num_sub_ops, k):
     bag = set()
-    k = random.randint(1, 3)
-    for _ in  range(k):
-        bag.add(random.choice(range(num_sub_ops)))
+    for i in  random.sample(range(num_sub_ops), k=k):
+        bag.add(i)
+    return [50 if i in bag else 0 for i in range(num_sub_ops)]
 
-    return [random.choice([40, 50, 60]) if i in bag else 0 for i in range(num_sub_ops)]
 
 
 patterns = []
-str_pats = set()
-while len(patterns) < num_patterns:
-    pattern = createPattern(num_sub_ops)
+sizes = random.sample([1, 2, 3], k=2)
+for k in sizes:
+    pattern = createPattern(num_sub_ops, k)
     str_pat = ''.join([str(x) for x in pattern])
-    if not str_pat in str_pats:
-        patterns.append(pattern)
-        str_pats.add(str_pat)
+    patterns.append(pattern)
 
 zeros = np.zeros((num_req_classes - num_patterns ,num_sub_ops), dtype=np.int)
 
