@@ -21,12 +21,13 @@ async_rpcs = [('items-server', 'findItemRandom'),
 num_sub_ops = len(sync_rpcs)
 
 def createPattern(num_sub_ops):
+    lat = random.randint(50, 150)
     bag = set()
     k = random.randint(1, 3)
     for _ in  range(k):
         bag.add(random.choice(range(num_sub_ops)))
 
-    return [random.choice([40, 50, 60]) if i in bag else 0 for i in range(num_sub_ops)]
+    return [round(lat/k) if i in bag else 0 for i in range(num_sub_ops)]
 
 def createSyncNoise(pattern):
     noise = np.zeros(len(pattern), dtype=np.int)
@@ -36,14 +37,12 @@ def createSyncNoise(pattern):
 
 patterns = []
 str_pats = set()
-max_pat = 0
 while len(patterns) < num_patterns:
     pattern = createPattern(num_sub_ops)
     str_pat = ''.join([str(x) for x in pattern])
     if not str_pat in str_pats:
         patterns.append(pattern)
         str_pats.add(str_pat)
-        max_pat = max(max_pat, sum(pattern))
 
 syncNoise = np.array([createSyncNoise(p) for p in patterns])
 
@@ -70,7 +69,7 @@ method=so[1]
 doc = open(cfgFile ,mode='r')
 ymlDict = ruamel.yaml.load(doc, Loader=RoundTripLoader)
 doc.close()
-ymlDict['noise'][method] = ','.join([str(max_pat) for _ in range(num_patterns)] + ['0' for _ in range(num_req_classes - num_patterns)])
+ymlDict['noise'][method] = ','.join(['100' for _ in range(num_patterns)] + ['0' for _ in range(num_req_classes - num_patterns)])
 doc = open(cfgFile ,mode='w')
 ruamel.yaml.dump(ymlDict, doc, Dumper=RoundTripDumper)
 
