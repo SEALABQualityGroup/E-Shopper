@@ -36,12 +36,14 @@ def createSyncNoise(pattern):
 
 patterns = []
 str_pats = set()
+max_pat = 0
 while len(patterns) < num_patterns:
     pattern = createPattern(num_sub_ops)
     str_pat = ''.join([str(x) for x in pattern])
     if not str_pat in str_pats:
         patterns.append(pattern)
         str_pats.add(str_pat)
+        max_pat = max(max_pat, sum(pattern))
 
 syncNoise = np.array([createSyncNoise(p) for p in patterns])
 
@@ -68,7 +70,7 @@ method=so[1]
 doc = open(cfgFile ,mode='r')
 ymlDict = ruamel.yaml.load(doc, Loader=RoundTripLoader)
 doc.close()
-ymlDict['noise'][method] = ','.join(['100' for _ in range(num_patterns)] + ['0' for _ in range(num_req_classes - num_patterns)])
+ymlDict['noise'][method] = ','.join([str(max_pat) for _ in range(num_patterns)] + ['0' for _ in range(num_req_classes - num_patterns)])
 doc = open(cfgFile ,mode='w')
 ruamel.yaml.dump(ymlDict, doc, Dumper=RoundTripDumper)
 
