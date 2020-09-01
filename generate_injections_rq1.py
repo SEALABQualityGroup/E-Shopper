@@ -6,8 +6,6 @@ import sys
 from math import ceil
 
 REQ_MEAN = 393
-NOISE_INTESITY= float(sys.argv[1])
-
 num_patterns =2
 num_req_classes = 10
 sync_rpcs = [('categories-server', 'getCategory'),
@@ -23,10 +21,9 @@ async_rpcs = [('items-server', 'findItemRandom')]
 
 num_sub_ops = len(sync_rpcs)
 
-def createPattern(num_sub_ops, k, factor):
+def createPattern(num_sub_ops, k):
     bag = set()
-
-    delay = (REQ_MEAN*factor)/k
+    delay = random.uniform(REQ_MEAN*0.2, REQ_MEAN*0.4)/k
     for i in  random.sample(range(num_sub_ops), k=k):
         bag.add(i)
     return [int(ceil(delay/sync_rpcs_num[i])) if i in bag
@@ -40,12 +37,10 @@ def createSyncNoise(pattern):
 
 patterns = []
 sizes = random.choices([1, 2, 3], k=2)
-
-pattern1 = createPattern(num_sub_ops, random.choice([1, 2, 3]), 0.25)
-pattern2 = createPattern(num_sub_ops, random.choice([1, 2, 3]), 0.35)
-
-patterns.append(pattern1)
-patterns.append(pattern2)
+for k in sizes:
+    pattern = createPattern(num_sub_ops, k)
+    str_pat = ''.join([str(x) for x in pattern])
+    patterns.append(pattern)
 
 syncNoise = np.array([createSyncNoise(p) for p in patterns])
 
@@ -72,7 +67,8 @@ method=so[1]
 doc = open(cfgFile ,mode='r')
 ymlDict = ruamel.yaml.load(doc, Loader=RoundTripLoader)
 doc.close()
-ymlDict['noise'][method] = ','.join([str(int(ceil(REQ_MEAN*NOISE_INTESITY))) for _ in range(num_req_classes)] + ['0' for _ in range(num_req_classes - num_patterns)])
+noise = random.uniform(REQ_MEAN*0.2, REQ_MEAN*0.4)
+ymlDict['noise'][method] = ','.join([str(int(ceil(noise))) for _ in range(num_req_classes)] + ['0' for _ in range(num_req_classes - num_patterns)])
 doc = open(cfgFile ,mode='w')
 ruamel.yaml.dump(ymlDict, doc, Dumper=RoundTripDumper)
 

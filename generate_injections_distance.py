@@ -6,7 +6,8 @@ import sys
 from math import ceil
 
 REQ_MEAN = 393
-NOISE_INTESITY= float(sys.argv[1])
+NOISE_INTESITY= 0.3
+DISTANCE = float(sys.argv[1])
 
 num_patterns =2
 num_req_classes = 10
@@ -41,8 +42,8 @@ def createSyncNoise(pattern):
 patterns = []
 sizes = random.choices([1, 2, 3], k=2)
 
-pattern1 = createPattern(num_sub_ops, random.choice([1, 2, 3]), 0.25)
-pattern2 = createPattern(num_sub_ops, random.choice([1, 2, 3]), 0.35)
+pattern1 = createPattern(num_sub_ops, random.choice([1, 2, 3]), 0.3 - DISTANCE/2)
+pattern2 = createPattern(num_sub_ops, random.choice([1, 2, 3]), 0.3 + DISTANCE/2)
 
 patterns.append(pattern1)
 patterns.append(pattern2)

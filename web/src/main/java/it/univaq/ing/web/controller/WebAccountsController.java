@@ -1264,7 +1264,7 @@ public class WebAccountsController {
 		List<Product> products = productsService.findProductsRandom();
 		List<Item> items = itemsService.findItemsRandomByIdProduct(products.get(0).getProductId());
 		CompletableFuture<List<Item>> itemsRecommended = itemsService.findItemsRandom();
-		List<Item> featuresItems = itemsService.findFeaturesItemRandom().get();
+		List<Item> featuresItems = itemsService.findFeaturesItemRandom();
 		
 		model.addAttribute("categories", categories);
 		model.addAttribute("products", products);

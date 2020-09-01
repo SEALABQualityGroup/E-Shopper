@@ -28,7 +28,7 @@ public interface ProductRepository extends Repository<Product, Long>{
 	public Product findProductById(@Param("productId") Long productId);
 	
 	@NewSpan
-	@Query(value = "SELECT * FROM PRODUCT  ORDER BY RAND() LIMIT 0,5", nativeQuery = true)
+	@Query(value = "SELECT * FROM PRODUCT  ORDER BY RAND()", nativeQuery = true)
 	public List<Product> findProductsRandom();
 	
 }

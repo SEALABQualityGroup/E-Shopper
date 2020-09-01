@@ -1,51 +1,43 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 from ruamel.yaml import RoundTripDumper, RoundTripLoader
 import numpy as np
 import random
 import ruamel.yaml
 import sys
-from math import ceil
 
-REQ_MEAN = 393
-NOISE_INTESITY= float(sys.argv[1])
-
-num_patterns =2
+num_patterns =int(sys.argv[1])
 num_req_classes = 10
 sync_rpcs = [('categories-server', 'getCategory'),
              ('items-server', 'findItemsRandomByIdProduct'),
              ('products-server', 'findProduct'),
              ('products-server', 'findProductRandom'),
-             ('items-server', 'findFeaturesItemRandom')
-             #('web-server', 'home')
-             ]
-sync_rpcs_num = [1, 19, 1, 1, 1]
+             ('web-server', 'home')]
 
-async_rpcs = [('items-server', 'findItemRandom')]
+async_rpcs = [('items-server', 'findItemRandom'),
+              ('items-server', 'findFeaturesItemRandom')]
 
 num_sub_ops = len(sync_rpcs)
 
-def createPattern(num_sub_ops, k, factor):
+def createPattern(num_sub_ops, k):
     bag = set()
-
-    delay = (REQ_MEAN*factor)/k
     for i in  random.sample(range(num_sub_ops), k=k):
         bag.add(i)
-    return [int(ceil(delay/sync_rpcs_num[i])) if i in bag
-            else 0 for i in range(num_sub_ops)]
+    return [50 if i in bag else 0 for i in range(num_sub_ops)]
 
 def createSyncNoise(pattern):
     noise = np.zeros(len(pattern), dtype=np.int)
     index = random.choice([i for i, p in enumerate(pattern) if p])
-    noise[index] = 0
+    noise[index] = 10
     return noise
 
 patterns = []
-sizes = random.choices([1, 2, 3], k=2)
-
-pattern1 = createPattern(num_sub_ops, random.choice([1, 2, 3]), 0.25)
-pattern2 = createPattern(num_sub_ops, random.choice([1, 2, 3]), 0.35)
-
-patterns.append(pattern1)
-patterns.append(pattern2)
+sizes = random.sample([1, 2, 3], k=2)
+for k in sizes:
+    pattern = createPattern(num_sub_ops, k)
+    str_pat = ''.join([str(x) for x in pattern])
+    patterns.append(pattern)
 
 syncNoise = np.array([createSyncNoise(p) for p in patterns])
 
@@ -72,7 +64,7 @@ method=so[1]
 doc = open(cfgFile ,mode='r')
 ymlDict = ruamel.yaml.load(doc, Loader=RoundTripLoader)
 doc.close()
-ymlDict['noise'][method] = ','.join([str(int(ceil(REQ_MEAN*NOISE_INTESITY))) for _ in range(num_req_classes)] + ['0' for _ in range(num_req_classes - num_patterns)])
+ymlDict['noise'][method] = ','.join(['100' for _ in range(num_patterns)] + ['0' for _ in range(num_req_classes - num_patterns)])
 doc = open(cfgFile ,mode='w')
 ruamel.yaml.dump(ymlDict, doc, Dumper=RoundTripDumper)
 

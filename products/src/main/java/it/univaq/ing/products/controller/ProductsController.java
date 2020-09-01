@@ -116,8 +116,7 @@ public class ProductsController {
 			String experiment = span.getBaggageItem("experiment");
 			if (experiment != null){
 				int requestClass = Integer.valueOf(experiment);
-				int size = Integer.valueOf(findProductRandomSize.get(requestClass));
-				products = productRepository.findProductsRandom().subList(0, size);
+				products = productRepository.findProductsRandom();
 			}
 		}catch(DataAccessException e){
 			logger.info("ERROR  ProductsController --> findProductRandom: "+ e.getMessage());
