@@ -23,6 +23,6 @@ logging:
   level:
     com.netflix.discovery.TimedSupervisorTask: OFF
 experiment:
-  getCategory: 0,42,0,0,0,0,0,0,0,0
+  getCategory: 0,0,0,0,0,0,0,0,0,0
 noise:
   getCategory: 0,0,0,0,0,0,0,0,0,0
